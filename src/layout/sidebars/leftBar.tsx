@@ -1,0 +1,179 @@
+import { NavLink } from "react-router-dom";
+import { FaHouse } from "react-icons/fa6";
+import { AiFillHome, AiOutlineHome } from "react-icons/ai"; //home Icon
+import { FaRegUserCircle, FaUserCircle } from "react-icons/fa"; //icon Profile
+import { BsSearchHeart, BsSearchHeartFill } from "react-icons/bs"; //serach Icon
+import { BsHeart, BsHeartFill } from "react-icons/bs"; //heard icon
+import { Button } from "@/components/ui/button";
+import { FaSignOutAlt } from "react-icons/fa";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useNavigate } from "react-router-dom";
+import { BiImageAdd } from "react-icons/bi";
+
+import { useAuth } from "@/Auth/AuthContext/AuthContext";
+import { useCreateThread } from "@/hooks/use-createThread";
+import { useForm } from "react-hook-form";
+import {
+  type createThreadDTO,
+  createThreadSchemas,
+} from "@/schema/createThreadSchemas";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { Label } from "@/components/ui/label";
+
+export const LeftBar = () => {
+  const { logOut } = useAuth();
+  const Navigate = useNavigate();
+  const LogOut = () => {
+    logOut();
+    Navigate("/login");
+  };
+
+  return (
+    <>
+      <div className="flex flex-col gap-3 text-2xl text-white w-1/4 text-left h-screen p-5 border-r-2 border-gray-700">
+        <h1 className="text-green-400 text-3xl font-bold mb-2">CIRCLE</h1>
+        <div className="flex flex-col gap-6 ">
+          {/* Home */}
+          <NavLink
+            to="/"
+            className="flex items-center gap-2 hover:text-green-400"
+          >
+            <AiOutlineHome className="text-2xl" />
+            <p className="">Home</p>
+          </NavLink>
+
+          {/* Search */}
+          <NavLink
+            to="/2"
+            className="flex items-center gap-2 hover:text-green-400"
+          >
+            <BsSearchHeart className="text-2xl" />
+            <p className="">Search</p>
+          </NavLink>
+
+          {/* Follows */}
+          <NavLink
+            to="/follows"
+            className="flex items-center gap-2 hover:text-green-400"
+          >
+            <BsHeart className="text-2xl" />
+            <p className="">Follows</p>
+          </NavLink>
+
+          {/* profile */}
+          <NavLink
+            to="/profile"
+            className="flex items-center gap-2 hover:text-green-400"
+          >
+            <FaRegUserCircle className="text-2xl" />
+            <p className="">Profile</p>
+          </NavLink>
+
+          <DialogPost />
+        </div>
+      </div>
+      <div className="fixed bottom-5 left-5 flex items-center gap-2 text-sm cursor-pointer text-white hover:opacity-80">
+        <Button
+          variant={null}
+          className="text-md cursor-pointer hover:text-green-400"
+          onClick={LogOut}
+        >
+          <FaSignOutAlt className="w-8 h-8 hover:text-green-500" />
+          LogOut
+        </Button>
+      </div>
+    </>
+  );
+};
+
+//dialog
+
+function DialogPost() {
+  const { isPending, mutateCreateThread, dataCreateThread } = useCreateThread();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<createThreadDTO>({
+    mode: "onChange",
+    resolver: zodResolver(createThreadSchemas),
+  });
+
+  const onsubmit = (data: createThreadDTO) => {
+    mutateCreateThread(data);
+    console.log("data yang masuk : ", data);
+  };
+  const [preview, setPreview] = useState<string | null>(null);
+  const handleImgChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+  return (
+    <>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <form encType="multipart/form-data">
+          <DialogTrigger asChild>
+            <Button
+              variant={null}
+              className="w-full bg-green-500 text-xl h-3xl hover:bg-green-400 cursor-pointer"
+            >
+              Create Post
+            </Button>
+          </DialogTrigger>
+          <DialogContent className=" bg-gray-950 text-white border-0">
+            <DialogHeader>
+              <DialogTitle>Ceate Post</DialogTitle>
+            </DialogHeader>
+            <div className="grid gap-4">
+              <div className="grid gap-3">
+                <Label htmlFor="name-1">Content</Label>
+                <Textarea
+                  {...register("content")}
+                  placeholder="What is happening..."
+                />
+                {errors.content && (
+                  <p className="text-white">{errors.content.message}</p>
+                )}
+              </div>
+              <div className="grid gap-3">
+                <Label htmlFor="username-1"></Label>
+                <Input
+                  {...register("img")}
+                  type="file"
+                  onChange={handleImgChange}
+                />
+                {preview && (
+                  <img src={preview} alt="preview" className="w-32 mt-2" />
+                )}
+              </div>
+            </div>
+            <DialogFooter>
+              <Button
+                onClick={handleSubmit(onsubmit)}
+                className="bg-green-500 cursor-pointer active:bg-green-400"
+              >
+                post
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </form>
+      </Dialog>
+    </>
+  );
+}
