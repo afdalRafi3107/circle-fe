@@ -4,6 +4,7 @@ import { MdOutlineInsertComment } from "react-icons/md";
 import { UseThread } from "@/hooks/use-thread";
 import { Button } from "@/components/ui/button";
 import { usePostByUser } from "@/hooks/use-postByUser";
+import { apiUpload } from "@/utils/urlimg";
 
 export function PostListByUser() {
   const [Liked, setLiked] = useState(false);
@@ -25,7 +26,15 @@ export function PostListByUser() {
           key={post.id}
           className="flex gap-4 p-3 border-b-2 border-gray-700"
         >
-          <img src="./img/p1.jpg" alt="" className="w-12 h-12 rounded-4xl" />
+          <img
+            src={
+              post.author?.profile?.[0].photoProfile
+                ? `${apiUpload}${post.author?.profile?.[0].photoProfile}`
+                : "../defaultIMG/defaultP.jpg"
+            }
+            alt=""
+            className="w-12 h-12 rounded-4xl"
+          />
           <div>
             <div className="flex items-center gap-2">
               <p>{post.author?.profile?.[0].name || "Unknown"}</p>
@@ -41,7 +50,11 @@ export function PostListByUser() {
               <p className="text-sm text-gray-200 text-justify">
                 {post.content}
               </p>
-              <img src={post.img} alt="" className="w-80 rounded-2xl" />
+              <img
+                src={`${apiUpload}${post.img}`}
+                alt=""
+                className="w-80 rounded-2xl"
+              />
             </div>
             {/* likes and comments */}
             <div className="flex gap-3 pt-2">

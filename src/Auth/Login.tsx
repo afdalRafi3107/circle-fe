@@ -59,7 +59,7 @@ export function LoginPage() {
             Forgot Password?
           </NavLink>
           <Button
-            className="h-10 text-2xl bg-green-600 hover:bg-green-500"
+            className="h-10 text-2xl text-white bg-green-600 hover:bg-green-500"
             type="submit"
           >
             Login

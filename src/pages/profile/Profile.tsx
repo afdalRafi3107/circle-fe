@@ -6,6 +6,7 @@ import { DialogEditProfile } from "@/layout/sidebars/rightBar";
 import { PostListByUser } from "../thread/postByUser";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Media } from "../thread/media";
+import { apiUpload } from "@/utils/urlimg";
 
 function Profile() {
   const { data: user, isLoading, isError } = UseProfile();
@@ -32,13 +33,21 @@ function Profile() {
             {/* pp and banner */}
             <div className="flex- flex-col gap-10">
               <img
-                src={user.profile[0].banner}
+                src={
+                  user.profile[0].banner
+                    ? `${apiUpload}${user.profile[0].banner}`
+                    : "/defaultIMG/defaultB.jpg"
+                }
                 alt=""
                 className="h-35 w-full object-cover cursor-pointer rounded-2xl"
               />
               <div className="flex items-center justify-between">
                 <img
-                  src={user.profile[0].photoProfile}
+                  src={
+                    user.profile[0].photoProfile
+                      ? `${apiUpload}${user.proPile[0].photoProfile}`
+                      : "/defaultIMG/defaultP.jpg"
+                  }
                   alt=""
                   className="w-25 h-25 object-cover rounded-[20mm] ml-5 border-4 border-gray-950 -mt-15 "
                 />

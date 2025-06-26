@@ -1,13 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { useEffect, useState } from "react";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 // import api from "@/api/axios";
 
 // import { useQuery } from "@tanstack/react-query";
@@ -26,18 +19,29 @@ import { useForm } from "react-hook-form";
 import type { editProfileDTO } from "@/schema/editProfileSchemas";
 import { editProfileSchema } from "@/schema/editProfileSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { apiUpload } from "@/utils/urlimg";
 export function RightBar() {
   const [isFollow, unFollow] = useState(false);
+  const [img, setImg] = useState<string | null>(null);
   const klikFollow = () => {
     unFollow(!isFollow);
   };
+  const { data: user, isLoading, isError } = UseProfile();
 
+  useEffect(() => {
+    const banner = user?.profile?.[0]?.banner;
+    const imgProfile = banner
+      ? `${apiUpload}${banner}`
+      : "/defaultIMG/defaultB.jpg";
+    setImg(imgProfile);
+  }, [user]);
   // const { data: user, isLoading } = useQuery({
   //   queryKey: ["user"],
   //   queryFn: fecthUser,
   // });
 
-  const { data: user, isLoading, isError } = UseProfile();
+  console.log("cek", img);
+  
 
   if (isLoading) return <div>Loading...</div>;
   if (isError || !user) return <div>Gagal mengambil profil</div>;
@@ -50,13 +54,17 @@ export function RightBar() {
           <p className="text-xl font-bold">My Profile</p>
           <div className="flex flex-col gap-3">
             <img
-              src={user.profile[0].banner}
+              src={img ?? "/defaultIMG/defaultB.jpg"}
               alt="banner"
               className="h-25 w-full object-cover cursor-pointer rounded-2xl"
             />
             <div className="flex items-center justify-between">
               <img
-                src={user.profile[0].photoProfile}
+                src={
+                  user.profile[0].photoProfile
+                    ? `${apiUpload}${user.profile[0].photoProfile}`
+                    : "/defaultIMG/defaultP.jpg"
+                }
                 alt="Profile iamge"
                 className="w-20 h-20 object-cover rounded-[200mm] ml-5 border-4 border-gray-950 -mt-15 "
               />
@@ -95,7 +103,7 @@ export function RightBar() {
             <div>
               <div key={follow.id} className="flex gap-2 items-center">
                 <img
-                  src="./img/profile.jpg"
+                  src="/img/profile.jpg"
                   alt=""
                   className="w-12 h-12 rounded-4xl"
                 />
@@ -126,7 +134,7 @@ export function RightBar() {
 }
 
 export function DialogEditProfile() {
-  const { mutateEditProfile, isPending } = useEdtProfile();
+  const { mutateEditProfile } = useEdtProfile();
 
   const [open, setIsOpen] = useState(false);
 
@@ -134,7 +142,7 @@ export function DialogEditProfile() {
     mutateEditProfile(data);
     console.log(data);
   };
-  const { data: user, isLoading, isError } = UseProfile();
+  const { data: user } = UseProfile();
   const { register, handleSubmit } = useForm<editProfileDTO>({
     defaultValues: {
       name: `${user.profile[0].name}`,
@@ -168,7 +176,7 @@ export function DialogEditProfile() {
                   <img
                     src="./img/profile.jpg"
                     alt=""
-                    className="h-18 h-18 object-cover rounded-[20mm]"
+                    className="h-18 object-cover rounded-[20mm]"
                   />
                 </label>
                 <Input id="file-upload" type="file" className="sr-only" />

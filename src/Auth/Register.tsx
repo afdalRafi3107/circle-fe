@@ -69,7 +69,7 @@ export function Registerpage() {
             <p className="text-red-500">{errors.password.message}</p>
           )}
           <Button
-            className="h-10 text-2xl bg-green-600 hover:bg-green-500"
+            className="h-10 text-2xl text-white bg-green-600 hover:bg-green-500"
             type="submit"
           >
             Register

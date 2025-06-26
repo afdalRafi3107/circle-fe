@@ -8,9 +8,10 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { useMediaByUser } from "@/hooks/use-mediaByUser copy";
+import { apiUpload } from "@/utils/urlimg";
 
 export function Media() {
-  const baseURL = "http://localhost:5173/uploads/";
+
   const { data: media, isLoading, isError } = useMediaByUser();
   if (isLoading) return <div>Loading...</div>;
   if (isError || !media) return <div>Gagal Mengambil media</div>;
@@ -22,7 +23,7 @@ export function Media() {
             <div key={media.id}>
               <img
                 className="h-40 w-80 max-w-full rounded-lg object-cover object-center cursor-pointer hover:bg-transparent"
-                src={media.img}
+                src={`${apiUpload}${media.img}`}
                 alt="gallery-photo"
               />
             </div>
@@ -31,7 +32,7 @@ export function Media() {
             <div key={media.id} className="w-full">
               <img
                 className="max-w-screen-lg max-h-screen-lg object-contain rounded-md shadow-lg"
-                src={media.img}
+                src={`${apiUpload}${media.img}`}
                 alt="gallery-photo"
               />
             </div>

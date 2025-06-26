@@ -1,18 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { MdOutlineInsertComment } from "react-icons/md";
 import { UseThread } from "@/hooks/use-thread";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "react-router-dom";
+import { apiUpload } from "@/utils/urlimg";
+import { useToggleLikeThread } from "@/hooks/use-like";
 
 export function ThreadList() {
   const [Liked, setLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
 
   const klikLike = () => {
     setLiked(!Liked);
   };
 
   const { data: thread, isLoading, isError } = UseThread();
+  console.log("data thread yang terambil : ", thread);
+
+  const { mutate: toogleLike } = useToggleLikeThread();
+
+  useEffect(() => {
+    if (thread) {
+      setLiked(thread.isLike);
+      setLikeCount(thread._count?.like);
+    }
+  }, [thread]);
+  const handleLikeToogle = async () => {
+    if (!thread) return;
+    try {
+      setLiked((prev) => !prev);
+      setLikeCount((prev) => (Liked ? prev - 1 : prev + 1));
+      toogleLike(thread.id);
+    } catch (error) {
+      console.log("Error toogling like: ", error);
+    }
+  };
+
   if (isLoading) return <div>Loading...</div>;
   if (isError || !thread) return <div>Gagal Mengambil thread</div>;
   console.log("thread list : ", thread);
@@ -24,7 +48,15 @@ export function ThreadList() {
           key={thread.id}
           className="flex gap-4 p-3 border-b-2 border-gray-700"
         >
-          <img src="./img/p1.jpg" alt="" className="w-12 h-12 rounded-4xl" />
+          <img
+            src={
+              thread.author.profile?.[0]?.photoProfile
+                ? `${apiUpload}${thread.author.profile?.[0].photoProfile}`
+                : "/defaultIMG/defaultP.jpg"
+            }
+            alt=""
+            className="w-12 h-12 rounded-4xl"
+          />
           <div>
             <div className="flex items-center gap-2">
               <p>{thread.author.profile?.[0]?.name}</p>
@@ -39,7 +71,11 @@ export function ThreadList() {
                 <p className="text-sm text-gray-200 text-justify">
                   {thread.content}
                 </p>
-                <img src={thread.img} alt="" className="w-80 rounded-2xl" />
+                <img
+                  src={`${apiUpload}${thread.img}`}
+                  alt=""
+                  className="w-80 rounded-2xl"
+                />
               </NavLink>
             </div>
             {/* likes and comments */}
@@ -47,24 +83,23 @@ export function ThreadList() {
               {/* likes */}
               <div className="flex items-center cursor-pointer hover:text-red-400">
                 <Button
-                  variant={null}
-                  onClick={klikLike}
-                  className="w-0 h-0 cursor-pointer hover:text-red-400"
+                  onClick={handleLikeToogle}
+                  className={`p-0 w-0 h-auto cursor-pointer bg-none text-gray-400 hover:text-red-400`}
                 >
-                  <FaRegHeart
-                    className={`${
-                      Liked ? "text-red-600" : "text-white"
-                    } text-red-400`}
-                  />
+                  {Liked ? (
+                    <FaHeart size={15} className="text-red-700" />
+                  ) : (
+                    <FaRegHeart size={15} className="" />
+                  )}
                 </Button>
-                <p>34</p>
+                <p>{thread._count.like}</p>
               </div>
               {/* commens */}
               <div className="flex items-center cursor-pointer ">
                 <Button variant={null} className="w-0 h-0">
                   <MdOutlineInsertComment />
                 </Button>
-                <p>13</p>
+                <p>{thread._count.reply}</p>
               </div>
             </div>
           </div>

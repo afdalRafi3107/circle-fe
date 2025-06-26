@@ -2,41 +2,20 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { Input } from "@/components/ui/input";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { BiCommentDetail } from "react-icons/bi";
 
-import { LuImagePlus } from "react-icons/lu";
-
 import { apiUpload } from "@/utils/urlimg";
 
-import {
-  FaArrowLeft,
-  FaHome,
-  FaSearch,
-  FaHeart,
-  FaRegUser,
-  FaUser,
-  FaSignOutAlt,
-  FaRegHeart,
-  FaEllipsisV,
-} from "react-icons/fa";
+import { FaArrowLeft, FaHeart, FaRegHeart, FaEllipsisV } from "react-icons/fa";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -47,16 +26,17 @@ import { useReply } from "@/hooks/use-replythread";
 import { useForm } from "react-hook-form";
 import { type replyScemasDTO, replySchemas } from "@/schema/replySchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { boolean } from "zod";
+import api from "@/api/axios";
+import { useToggleLikeThread } from "@/hooks/use-like";
 
 function DetailThread() {
   const { id } = useParams();
-  const threadId = Number(id);
-  const [isLiked, setIsLiked] = useState(false);
+
   const navigate = useNavigate();
 
-  const handleIconClick = () => {
-    setIsLiked(!isLiked);
-  };
+  const [liked, setLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
 
   const handleGoBack = () => {
     navigate(-1);
@@ -68,6 +48,25 @@ function DetailThread() {
 
   // get detail thread
   const { data: thread, isError, isLoading } = useDetailThread(id || "");
+  const { mutate: toggleLike } = useToggleLikeThread();
+
+  useEffect(() => {
+    if (thread) {
+      setLiked(thread.isLike);
+      setLikeCount(thread._count.like);
+    }
+  }, [thread]);
+
+  const handleLikeToogle = async () => {
+    if (!thread) return;
+    try {
+      setLiked((prev) => !prev);
+      setLikeCount((prev) => (liked ? prev - 1 : prev + 1));
+      toggleLike(thread.id);
+    } catch (error) {
+      console.log("Error toggling like:", error);
+    }
+  };
   // create Reply
   const { mutateReply, isPending } = useReply(id || "");
 
@@ -108,7 +107,11 @@ function DetailThread() {
             <div className="profile">
               <NavLink to="">
                 <img
-                  src={`${thread.author?.profil?.[0].img}`}
+                  src={
+                    thread.author?.profile?.[0].photoProfile
+                      ? `${apiUpload}${thread.author?.profile?.[0].photoProfile}`
+                      : "../defaultIMG/defaultP.jpg"
+                  }
                   alt="profile"
                   className="w-12 h-11 rounded-full object-cover"
                 />
@@ -163,7 +166,7 @@ function DetailThread() {
                   <div className="">
                     <img
                       className="w-full rounded-2xl"
-                      src={thread.img}
+                      src={`${apiUpload}${thread.img}`}
                       alt="gallery-photo"
                     />
                   </div>
@@ -181,18 +184,15 @@ function DetailThread() {
                 {/* Like */}
                 <div className="flex items-center gap-1">
                   <Button
-                    onClick={handleIconClick}
-                    className="p-0 w-0 h-auto cursor-pointer bg-none text-gray-400 hover:text-red-400"
+                    onClick={handleLikeToogle}
+                    className={`p-0 w-0 h-auto cursor-pointer bg-none text-gray-400 hover:text-red-400`}
                   >
-                    {isLiked ? (
-                      <FaHeart
-                        size={15}
-                        className="text-red-700 duration-1000 "
-                      />
+                    {liked ? (
+                      <FaHeart size={15} className="text-red-700" />
                     ) : (
                       <FaRegHeart size={15} className="" />
                     )}
-                    <span className=" text-xs">120</span>
+                    <span className=" text-xs">{thread._count.like}</span>
                   </Button>
                 </div>
 
@@ -200,7 +200,7 @@ function DetailThread() {
                 <div className="flex items-center gap-1">
                   <Button className="p-0 h-auto w-0 border-0 cursor-pointer bg-none text-gray-400 hover:text-green-400">
                     <BiCommentDetail size={15} />
-                    <span className=" text-xs">12 Replies</span>
+                    <span className=" text-xs">{thread._count.reply}</span>
                   </Button>
                 </div>
               </div>
@@ -216,7 +216,7 @@ function DetailThread() {
               <div className="profile">
                 <NavLink to="">
                   <img
-                    src="/image/profile/wp.jpg"
+                    src="../defaultIMG/defaultP.jpg"
                     alt="profile"
                     className="w-12 h-11 rounded-full object-cover"
                   />
@@ -256,13 +256,17 @@ function DetailThread() {
         {/* /Post Form */}
 
         {/* Reply Users */}
-        {reply.map(() => (
+        {reply?.map((reply: any) => (
           <div className="Post border-b border-gray-500">
-            <div className="items flex gap-3 p-4 ">
+            <div key={reply.id} className="items flex gap-3 p-4 ">
               <div className="profile">
                 <NavLink to="">
                   <img
-                    src={`${apiUpload}${reply.author?.profile?.[0].img}`}
+                    src={
+                      reply.author?.profile?.[0].img
+                        ? `${apiUpload}${reply.author.profile?.[0].img}`
+                        : "../defaultIMG/defaultP.jpg"
+                    }
                     alt="profile"
                     className="w-12 h-11 rounded-full object-cover"
                   />
@@ -309,32 +313,6 @@ function DetailThread() {
                 <p className="text-gray-200 text-sm text-justify">
                   {reply.comment}
                 </p>
-                <img
-                  src=""
-                  alt=""
-                  className="max-h-60 mt-2 rounded-2xl object-cover"
-                />
-
-                {/* Action */}
-                <div className="mt-3 flex gap-5">
-                  {/* Like */}
-                  <div className="flex items-center gap-1">
-                    <Button
-                      onClick={handleIconClick}
-                      className="p-0 w-0 h-auto cursor-pointer bg-none text-gray-400 hover:text-red-400"
-                    >
-                      {isLiked ? (
-                        <FaHeart
-                          size={15}
-                          className="text-red-700 duration-1000 "
-                        />
-                      ) : (
-                        <FaRegHeart size={15} className="" />
-                      )}
-                      <span className=" text-xs">120</span>
-                    </Button>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
