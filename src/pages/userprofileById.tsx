@@ -3,19 +3,22 @@ import { FaArrowLeft } from "react-icons/fa";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UseProfile } from "@/hooks/use-profile";
 import { DialogEditProfile } from "@/layout/sidebars/rightBar";
-import { PostListByUser } from "../thread/postByUser";
+import { PostListByUser } from "./thread/postByUser";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Media } from "../thread/media";
+import { Media } from "./thread/media";
 import { apiUpload } from "@/utils/urlimg";
-import { useSugestFollow } from "@/hooks/use-sugestFollow";
+import { useUserPofile } from "@/hooks/use-userProfieById";
+import { useParams } from "react-router-dom";
 
-function Profile() {
-  const { data: user, isLoading, isError } = UseProfile();
-  // const { data: folow } = useSugestFollow();
-  // console.log(folow);
+function ProfileById() {
+  const { id } = useParams();
+
+  const { data: user, isLoading, isError } = useUserPofile(id || "");
 
   if (isLoading) return <div>Loading...</div>;
   if (isError || !user) return <div>Gagal mengambil profil</div>;
+
+  console.log("data user : ", user);
 
   return (
     <>
@@ -110,4 +113,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default ProfileById;

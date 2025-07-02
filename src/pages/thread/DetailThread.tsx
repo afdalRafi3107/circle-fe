@@ -26,9 +26,9 @@ import { useReply } from "@/hooks/use-replythread";
 import { useForm } from "react-hook-form";
 import { type replyScemasDTO, replySchemas } from "@/schema/replySchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { boolean } from "zod";
-import api from "@/api/axios";
 import { useToggleLikeThread } from "@/hooks/use-like";
+import { Import } from "lucide-react";
+import { UseProfile } from "@/hooks/use-profile";
 
 function DetailThread() {
   const { id } = useParams();
@@ -48,6 +48,7 @@ function DetailThread() {
 
   // get detail thread
   const { data: thread, isError, isLoading } = useDetailThread(id || "");
+  const { data: user } = UseProfile();
   const { mutate: toggleLike } = useToggleLikeThread();
 
   useEffect(() => {
@@ -67,6 +68,7 @@ function DetailThread() {
       console.log("Error toggling like:", error);
     }
   };
+
   // create Reply
   const { mutateReply, isPending } = useReply(id || "");
 
@@ -121,7 +123,11 @@ function DetailThread() {
               <div className="TopTypoghsph flex justify-between pb-2">
                 <div className="flex flex-col gap-0.5 items-center">
                   <NavLink
-                    to=""
+                    to={
+                      user.id == thread.author.id
+                        ? "/profile"
+                        : `/user-profile/${thread.author?.id}`
+                    }
                     className="text-sm text-white font-semibold hover:underline"
                   >
                     {thread.author?.profile?.[0].name}

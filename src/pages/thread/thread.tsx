@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { NavLink } from "react-router-dom";
 import { apiUpload } from "@/utils/urlimg";
 import { useToggleLikeThread } from "@/hooks/use-like";
+import { UseProfile } from "@/hooks/use-profile";
 
 export function ThreadList() {
   const [Liked, setLiked] = useState(false);
@@ -16,7 +17,7 @@ export function ThreadList() {
   };
 
   const { data: thread, isLoading, isError } = UseThread();
-  console.log("data thread yang terambil : ", thread);
+  const { data: user } = UseProfile();
 
   const { mutate: toogleLike } = useToggleLikeThread();
 
@@ -40,14 +41,12 @@ export function ThreadList() {
   if (isLoading) return <div>Loading...</div>;
   if (isError || !thread) return <div>Gagal Mengambil thread</div>;
   console.log("thread list : ", thread);
+  console.log("user yang Login : ", user);
 
   return (
     <>
       {thread.map((thread: any) => (
-        <div
-          key={thread.id}
-          className="flex gap-4 p-3 border-b-2 border-gray-700"
-        >
+        <div className="flex gap-4 p-3 border-b-2 border-gray-700">
           <img
             src={
               thread.author.profile?.[0]?.photoProfile
@@ -59,8 +58,21 @@ export function ThreadList() {
           />
           <div>
             <div className="flex items-center gap-2">
-              <p>{thread.author.profile?.[0]?.name}</p>
-              <p className="text-sm text-gray-400">@{thread.author.username}</p>
+              <NavLink
+                to={
+                  user?.id == thread.author?.id
+                    ? `/profile`
+                    : `/user-profile/${thread.author.id}`
+                }
+                className="hover:underline"
+              >
+                <p>{thread.author.profile?.[0]?.name}</p>
+              </NavLink>
+              <NavLink to={`/user-profile/${thread.author?.id}`}>
+                <p className="text-sm text-gray-400">
+                  @{thread.author.username}
+                </p>
+              </NavLink>
               <p className="text-sm text-gray-400">•</p>
               <p className="text-sm text-gray-400">
                 {getRelatifTime(new Date(thread.createAt))}
@@ -112,13 +124,10 @@ export function ThreadList() {
 function getRelatifTime(postTime: Date): string {
   const now = new Date();
   const postDate = postTime.getTime();
-  console.log("watu post : ", postDate);
 
   const nowTime = now.getDate();
-  console.log("waktu sekarang : ", nowTime);
 
   const SelisihDalamDetik = Math.floor((now.getTime() - postDate) / 10000);
-  console.log("selisih dalam detik : ", SelisihDalamDetik);
 
   const InSecond = SelisihDalamDetik * -1;
   console.log("detik : ", InSecond);

@@ -1,14 +1,25 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useFollowres } from "@/hooks/use-followers";
+import { apiUpload } from "@/utils/urlimg";
+import { FollowButton } from "./buttonFollow.tsx/follow";
+import { useFollowing } from "@/hooks/use-folowing";
 
 function Follows() {
+  const { data: followers, isLoading, isError } = useFollowres();
+  const { data: following } = useFollowing();
+
+  console.log("followres detail: ", following);
+
   const [follow, unfollow] = useState(true);
   const klikButton = () => {
     unfollow(!follow);
   };
 
   const [activeTab, setActiveTab] = useState("AllPost");
+  if (isLoading) return <div>Loading...</div>;
+  if (isError || !followers) return <div>Gagal Mengambil thread</div>;
   return (
     <main className="h-screen border-l border-gray-500 p-5">
       {/* Post and media */}
@@ -29,7 +40,6 @@ function Follows() {
             </div>
             <div className="w-full text-center ">
               <TabsTrigger
-
                 className="w-full text-1sm text-white border-0 rounded-none cursor-pointer bg-black border-0 data-[state=active]:border-b-4 border-solid border-green-600 bg-black"
                 value="following"
               >
@@ -39,68 +49,63 @@ function Follows() {
           </TabsList>
           <TabsContent value="followers" className="">
             {/* Followers */}
-            <div className="flex flex-col gap-4">
-              {/* User Followers */}
-              <div className="UserSugested flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <img
-                    src="./img/p1.jpg"
-                    alt=""
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
-                  <div className="text-white">
-                    <p className="text-sm font-semibold">Brand</p>
-                    <p className="text-sm text-gray-400">@Brand</p>
+            {followers.map((data: any) => (
+              <div className="flex flex-col pb-2 ">
+                {/* User Followers */}
+                <div className="UserSugested flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <img
+                      src={
+                        data?.follower?.profile?.[0]?.photoProfile
+                          ? `${apiUpload}${data?.follower?.profile?.[0]?.photoProfile}`
+                          : "/defaultIMG/defaultP.jpg"
+                      }
+                      alt=""
+                      className="w-10 h-10 rounded-full object-cover"
+                    />
+                    <div className="text-white">
+                      <p className="text-sm font-semibold">
+                        {data?.follower?.profile[0]?.name}
+                      </p>
+                      <p className="text-sm text-gray-400">
+                        @{data?.follower?.username}
+                      </p>
+                    </div>
                   </div>
+                  <FollowButton userId={data.follower?.profile?.[0].id} />
                 </div>
-                <Button
-                  onClick={klikButton}
-                  className={`
-                          h-8 rounded-2xl cursor-pointer bg-none border-2 hover:text-gray-400 text-amber-300 
-                          ${
-                            follow
-                              ? "text-white"
-                              : "text-gray-400 border-gray-400"
-                          }
-                        `}
-                >
-                  {follow ? "Follow" : "Unfollow"}
-                </Button>
               </div>
-            </div>
+            ))}
           </TabsContent>
-
           <TabsContent value="following" className="">
             {/* Following */}
-            <div className="flex flex-col gap-4">
-              {/* User Following */}
-              <div className="UserSugested flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <img
-                    src="/img/p2.jpg "
-                    alt=""
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
-                  <div className="text-white">
-                    <p className="text-sm font-semibold">Meydia</p>
-                    <p className="text-sm text-gray-400">@Meydia</p>
+            {following?.follow?.map((followItem: any) => (
+              <div className="flex flex-col gap-4">
+                {/* User Following */}
+                <div className="UserSugested flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <img
+                      src={
+                        followItem.following.profile[0]?.photoProfile
+                          ? `${apiUpload}${followItem.following.profile[0]?.photoProfile}`
+                          : "/defaultIMG/defaultP.jpg"
+                      }
+                      alt=""
+                      className="w-10 h-10 rounded-full object-cover"
+                    />
+                    <div className="text-white">
+                      <p className="text-sm font-semibold">
+                        {followItem.following.profile[0]?.name}
+                      </p>
+                      <p className="text-sm text-gray-400">
+                        @{followItem.following.username}
+                      </p>
+                    </div>
                   </div>
+                  <FollowButton userId={followItem.following.profile[0]?.id} />
                 </div>
-                <Button
-                  onClick={klikButton}
-                  className={`
-                          h-8 rounded-2xl bg-black cursor-pointer border-2 hover:text-gray-400 text-amber-300 
-                          ${
-                            !follow
-                              ? "text-white"
-                              : "text-gray-400 border-gray-400"
-                          }
-                        `}
-                >
-                  {!follow ? "Follow" : "Unfollow"}
-                </Button>
               </div>
-            </div>
+            ))}
           </TabsContent>
         </Tabs>
       </div>

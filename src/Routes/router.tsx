@@ -7,6 +7,7 @@ import Profile from "@/pages/profile/Profile";
 import Follows from "@/pages/FollowsPage";
 import { Registerpage } from "@/Auth/Register";
 import DetailThread from "@/pages/thread/DetailThread";
+import ProfileById from "@/pages/userprofileById";
 
 let router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ let router = createBrowserRouter([
       {
         path: "/detail-thread/:id",
         Component: DetailThread,
+      },
+      {
+        path: "/user-Profile/:id",
+        Component: ProfileById,
       },
     ],
   },

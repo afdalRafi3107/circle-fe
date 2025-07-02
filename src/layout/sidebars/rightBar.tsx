@@ -20,13 +20,15 @@ import type { editProfileDTO } from "@/schema/editProfileSchemas";
 import { editProfileSchema } from "@/schema/editProfileSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { apiUpload } from "@/utils/urlimg";
+import { useSugestFollow } from "@/hooks/use-sugestFollow";
+import { FollowButton } from "@/pages/buttonFollow.tsx/follow";
+
 export function RightBar() {
-  const [isFollow, unFollow] = useState(false);
   const [img, setImg] = useState<string | null>(null);
-  const klikFollow = () => {
-    unFollow(!isFollow);
-  };
+
   const { data: user, isLoading, isError } = UseProfile();
+  const { data: SugetsFollow } = useSugestFollow("cek aahh");
+  console.log("sugestFollow :ss ", SugetsFollow);
 
   useEffect(() => {
     const banner = user?.profile?.[0]?.banner;
@@ -40,12 +42,8 @@ export function RightBar() {
   //   queryFn: fecthUser,
   // });
 
-  console.log("cek", img);
-  
-
   if (isLoading) return <div>Loading...</div>;
   if (isError || !user) return <div>Gagal mengambil profil</div>;
-  console.log("profile : ", user.photoProfile);
 
   return (
     <>
@@ -68,12 +66,6 @@ export function RightBar() {
                 alt="Profile iamge"
                 className="w-20 h-20 object-cover rounded-[200mm] ml-5 border-4 border-gray-950 -mt-15 "
               />
-              {/* <Button
-                variant={null}
-                className={`border-3 rounded-2xl cursor-pointer`}
-              >
-                Edit Profile
-              </Button> */}
               <DialogEditProfile />
             </div>
             {/* profile */}
@@ -99,34 +91,35 @@ export function RightBar() {
         {/* follow sugest */}
         <div className="flex flex-col gap-3 h-fit bg-gray-950 text-white p-3 rounded-2xl">
           <p className="text-xl font-bold">Suggested for you</p>
-          {Sgstflow.map((follow) => (
-            <div>
-              <div key={follow.id} className="flex gap-2 items-center">
-                <img
-                  src="/img/profile.jpg"
-                  alt=""
-                  className="w-12 h-12 rounded-4xl"
-                />
-                <div className="flex justify-between  items-center w-full">
-                  <div className="text-sm">
-                    <p className="font-bold">{follow.name}</p>
-                    <p className="text-gray-300">@{follow.username}</p>
+          {SugetsFollow ? (
+            SugetsFollow.map((follow: any) => (
+              <div>
+                <div key={follow.id} className="flex gap-2 items-center">
+                  <img
+                    src={
+                      follow.photoProfile
+                        ? `${follow.photoProfile}`
+                        : "/defaultIMG/defaultP.jpg"
+                    }
+                    alt=""
+                    className="w-12 h-12 rounded-4xl"
+                  />
+                  <div className="flex justify-between  items-center w-full">
+                    <div className="text-sm">
+                      <p className="font-bold">{follow.name}</p>
+                      <p className="text-gray-300">
+                        @{follow.userProfile?.username}
+                      </p>
+                    </div>
+                    {/* <Button>follow</Button> */}
+                    <FollowButton userId={follow.userProfile?.id} />
                   </div>
-                  <Button
-                    onClick={klikFollow}
-                    variant={null}
-                    className={`border-2 cursor-pointer ${
-                      isFollow
-                        ? "border-gray-400 text-gray-400"
-                        : "border-white text-white"
-                    }`}
-                  >
-                    {isFollow ? "Unfollow" : "Follow"}
-                  </Button>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p className="text-sm text-gray-400">No suggestions found</p>
+          )}
         </div>
       </div>
     </>
