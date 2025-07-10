@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { useDeleteReply } from "@/hooks/use-deleteReplt";
-import { useDeleteThread } from "@/hooks/use-deleteThread";
 
 interface deleteProps {
   id: number;

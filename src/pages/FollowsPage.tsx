@@ -1,6 +1,4 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { useFollowres } from "@/hooks/use-followers";
 import { apiUpload } from "@/utils/urlimg";
 import { FollowButton } from "./featureButton/follow";
@@ -12,24 +10,14 @@ function Follows() {
 
   console.log("followres detail: ", following);
 
-  const [follow, unfollow] = useState(true);
-  const klikButton = () => {
-    unfollow(!follow);
-  };
-
-  const [activeTab, setActiveTab] = useState("AllPost");
   if (isLoading) return <div>Loading...</div>;
   if (isError || !followers) return <div>Gagal Mengambil thread</div>;
   return (
     <main className="h-screen border-r border-gray-700 p-5">
       {/* Post and media */}
       <div className="Tabs">
-        <Tabs
-          defaultValue="followers"
-          className="w-full"
-          onValueChange={setActiveTab}
-        >
-          <TabsList className="flex justify-between text-white w-full border-b p-0 border-gray-700 rounded-none text-white">
+        <Tabs defaultValue="followers" className="w-full">
+          <TabsList className="flex justify-between text-white w-full border-b p-0 border-gray-700 rounded-none">
             <div className="w-full text-center">
               <TabsTrigger
                 className=" w-full text-1sm border-0 rounded-none cursor-pointer data-[state=active]:border-b-4 border-solid border-green-600"
@@ -40,7 +28,7 @@ function Follows() {
             </div>
             <div className="w-full text-center ">
               <TabsTrigger
-                className="w-full text-1sm text-white border-0 rounded-none cursor-pointer bg-black border-0 data-[state=active]:border-b-4 border-solid border-green-600 bg-black"
+                className="w-full text-1sm text-white border-0 rounded-none cursor-pointer data-[state=active]:border-b-4 border-solid border-green-600 bg-black"
                 value="following"
               >
                 Following

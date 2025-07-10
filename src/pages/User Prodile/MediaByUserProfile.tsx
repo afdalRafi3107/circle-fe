@@ -1,13 +1,4 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Textarea } from "@/components/ui/textarea";
-import { useMediaByUser } from "@/hooks/use-mediaByUser copy";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useMediaByProfile } from "@/hooks/use-MediabyUserProfile";
 import { apiUpload } from "@/utils/urlimg";
 import { useParams } from "react-router-dom";

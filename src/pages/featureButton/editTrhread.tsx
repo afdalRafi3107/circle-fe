@@ -2,12 +2,10 @@ import {
   DialogContent,
   DialogTrigger,
   DialogTitle,
-  DialogHeader,
   Dialog,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@radix-ui/react-label";
 import { useEditThread } from "@/hooks/use-editThread";
 import {
   editThreadSchmeas,
@@ -28,19 +26,18 @@ export function EditPostDialog({
   postId,
   currentContent,
   currentImg,
-//   onOpen,
-}: updateaThreadProps) {
+}: //   onOpen,
+updateaThreadProps) {
   const [preview, setPreview] = useState(currentImg ? currentImg : null);
   const [removeImg, setRemoveImg] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const { register, handleSubmit, setValue, watch } =
-    useForm<editThreadSchmeasDTO>({
-      resolver: zodResolver(editThreadSchmeas),
-      defaultValues: {
-        content: currentContent,
-      },
-    });
+  const { register, handleSubmit, setValue } = useForm<editThreadSchmeasDTO>({
+    resolver: zodResolver(editThreadSchmeas),
+    defaultValues: {
+      content: currentContent,
+    },
+  });
 
   const { mutateAsync: mutateEditThread, isPending } = useEditThread(postId);
 

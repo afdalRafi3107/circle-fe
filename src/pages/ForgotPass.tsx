@@ -8,7 +8,7 @@ export function ForgotPasspage() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm();
 
   const Navigate = useNavigate();

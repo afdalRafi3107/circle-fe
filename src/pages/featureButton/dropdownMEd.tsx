@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,7 +6,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { FaEllipsisV } from "react-icons/fa";
-import { ButtonDeleteReply } from "./DeleteButtonReply";
+
 import { ButtonDeleteThread } from "./DeleteButtonThread";
 import { EditPostDialog } from "./editTrhread";
 
@@ -18,8 +17,6 @@ interface Props {
 }
 
 export function DropdownThreads({ id, content, img }: Props) {
-  const [isEditOpen, setIsEditOpen] = useState(false);
-  const [isDelete, setIsDelete] = useState(false);
   return (
     <div>
       <DropdownMenu>
@@ -30,25 +27,11 @@ export function DropdownThreads({ id, content, img }: Props) {
           />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="sm:max-w-[425px] p-3 bg-gray-200">
-          <DropdownMenuItem
-            onClick={() => {
-              setTimeout(() => {
-                setIsEditOpen(true);
-              }, 50);
-            }}
-            className="cursor-pointer"
-          >
+          <DropdownMenuItem className="cursor-pointer">
             Edit Thread
           </DropdownMenuItem>
 
-          <DropdownMenuItem
-            onClick={() => {
-              setTimeout(() => {
-                setIsDelete(true);
-              }, 50);
-            }}
-            className="cursor-pointer"
-          >
+          <DropdownMenuItem className="cursor-pointer">
             <ButtonDeleteThread id={id} />
           </DropdownMenuItem>
         </DropdownMenuContent>

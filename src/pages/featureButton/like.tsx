@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 
-import { FaArrowLeft, FaHeart, FaRegHeart, FaEllipsisV } from "react-icons/fa";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useLike } from "@/hooks/use-like";
 import { useLikeStatus } from "@/hooks/use-likeStatus";
 interface likeProps {
@@ -9,7 +9,7 @@ interface likeProps {
 }
 
 export function LikeButton({ idThread, likeCount }: likeProps) {
-  const { data: isLike, refetch } = useLikeStatus(idThread);
+  const { data: isLike } = useLikeStatus(idThread);
   const { muatateLike } = useLike();
   console.log("likeCount : ", likeCount);
 

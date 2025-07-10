@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
-import { NavLink } from "react-router-dom";
 
 export function ResetPasswordpage() {
   const Navigate = useNavigate();
@@ -10,7 +9,7 @@ export function ResetPasswordpage() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm();
 
   return (

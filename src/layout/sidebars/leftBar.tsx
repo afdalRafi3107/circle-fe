@@ -1,16 +1,13 @@
 import { NavLink } from "react-router-dom";
-import { FaHouse } from "react-icons/fa6";
-import { AiFillHome, AiOutlineHome } from "react-icons/ai"; //home Icon
-import { FaRegUserCircle, FaUserCircle } from "react-icons/fa"; //icon Profile
-import { BsSearchHeart, BsSearchHeartFill } from "react-icons/bs"; //serach Icon
-import { BsHeart, BsHeartFill } from "react-icons/bs"; //heard icon
+import { AiOutlineHome } from "react-icons/ai"; //home Icon
+import { FaRegUserCircle } from "react-icons/fa"; //icon Profile
+import { BsSearchHeart } from "react-icons/bs"; //serach Icon
+import { BsHeart } from "react-icons/bs"; //heard icon
 import { Button } from "@/components/ui/button";
 import { FaSignOutAlt } from "react-icons/fa";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -19,7 +16,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useNavigate } from "react-router-dom";
-import { BiImageAdd } from "react-icons/bi";
 
 import { useAuth } from "@/Auth/AuthContext/AuthContext";
 import { useCreateThread } from "@/hooks/use-createThread";
@@ -149,7 +145,7 @@ export const LeftBar = () => {
 //dialog
 
 function DialogPost() {
-  const { isPending, mutateCreateThread, dataCreateThread } = useCreateThread();
+  const { mutateCreateThread } = useCreateThread();
   const [isOpen, setIsOpen] = useState(false);
 
   const {

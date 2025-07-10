@@ -2,14 +2,13 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { Input } from "@/components/ui/input";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { getRelatifTime } from "@/utils/time";
 
 import { BiCommentDetail } from "react-icons/bi";
 
 import { apiUpload } from "@/utils/urlimg";
 
-import { FaArrowLeft, FaHeart, FaRegHeart, FaEllipsisV } from "react-icons/fa";
+import { FaArrowLeft, FaEllipsisV } from "react-icons/fa";
 
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
@@ -28,7 +27,6 @@ import { useForm } from "react-hook-form";
 import { type replyScemasDTO, replySchemas } from "@/schema/replySchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 // import { useToggleLikeThread } from "@/hooks/use-like";
-import { Import } from "lucide-react";
 import { UseProfile } from "@/hooks/use-profile";
 import { LikeButton } from "../featureButton/like";
 import { ButtonDeleteReply } from "../featureButton/DeleteButtonReply";
@@ -54,13 +52,9 @@ function DetailThread() {
   // const { mutate: toggleLike } = useToggleLikeThread();
 
   // create Reply
-  const { mutateReply, isPending } = useReply(id || "");
+  const { mutateReply } = useReply(id || "");
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<replyScemasDTO>({
+  const { register, handleSubmit } = useForm<replyScemasDTO>({
     mode: "onChange",
     resolver: zodResolver(replySchemas),
   });

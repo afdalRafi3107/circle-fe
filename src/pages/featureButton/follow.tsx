@@ -1,8 +1,5 @@
 import { useFollow } from "@/hooks/use-follow";
 import { Button } from "@/components/ui/button";
-import { useSugestFollow } from "@/hooks/use-sugestFollow";
-import { useEffect, useState } from "react";
-import { UseProfile } from "@/hooks/use-profile";
 import { useFollowStatus } from "@/hooks/use-followStatus";
 
 type FollowProps = {

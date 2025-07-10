@@ -16,14 +16,9 @@ import { LuImagePlus } from "react-icons/lu";
 
 export function Home() {
   const { data: user, isLoading, isError } = UseProfile();
-  const { isPending, mutateCreateThread, dataCreateThread } = useCreateThread();
+  const { mutateCreateThread } = useCreateThread();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm<createThreadDTO>({
+  const { register, handleSubmit } = useForm<createThreadDTO>({
     resolver: zodResolver(createThreadSchemas),
   });
 
@@ -33,6 +28,7 @@ export function Home() {
   };
   const handelImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    console.log(file);
   };
 
   if (isLoading) {

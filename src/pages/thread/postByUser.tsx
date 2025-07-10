@@ -1,22 +1,11 @@
-import { useState } from "react";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { MdOutlineInsertComment } from "react-icons/md";
-import { UseThread } from "@/hooks/use-thread";
 import { Button } from "@/components/ui/button";
 import { usePostByUser } from "@/hooks/use-postByUser";
 import { apiUpload } from "@/utils/urlimg";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { NavLink } from "react-router-dom";

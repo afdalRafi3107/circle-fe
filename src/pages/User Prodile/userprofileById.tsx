@@ -1,11 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { FaArrowLeft } from "react-icons/fa";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { UseProfile } from "@/hooks/use-profile";
 import { DialogEditProfile } from "@/layout/sidebars/rightBar";
-import { PostListByUser } from "../thread/postByUser";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Media } from "../thread/media";
 import { apiUpload } from "@/utils/urlimg";
 import { useUserPofile } from "@/hooks/use-userProfieById";
 import { useParams } from "react-router-dom";

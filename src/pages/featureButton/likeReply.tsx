@@ -1,8 +1,7 @@
 import { Button } from "@/components/ui/button";
 
-import { FaArrowLeft, FaHeart, FaRegHeart, FaEllipsisV } from "react-icons/fa";
+import { FaHeart, FaRegHeart} from "react-icons/fa";
 import { useLikeReply } from "@/hooks/use-likeReply";
-import { useLikeStatus } from "@/hooks/use-likeStatus";
 import { useLikeReplyStatus } from "@/hooks/use-likeReplyStatus";
 interface likeProps {
   idReply: number;
@@ -10,7 +9,7 @@ interface likeProps {
 }
 
 export function LikeReplyButton({ idReply, likeCount }: likeProps) {
-  const { data: isLike, refetch } = useLikeReplyStatus(idReply);
+  const { data: isLike} = useLikeReplyStatus(idReply);
   const { mutateLikeReply } = useLikeReply();
   console.log("likeCount : ", likeCount);
 

@@ -1,15 +1,5 @@
-import {
-  FaHome,
-  FaSearch,
-  FaHeart,
-  FaRegUser,
-  FaUser,
-  FaSignOutAlt,
-  FaRegHeart,
-  FaEllipsisV,
-} from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useSearch } from "@/hooks/use-search";
 import { apiUpload } from "@/utils/urlimg";
@@ -25,10 +15,6 @@ function Search() {
   console.log("search : ", search);
   console.log("usesr yang ketemu : ", users);
 
-  const [follow, unfollow] = useState(true);
-  const klikButton = () => {
-    unfollow(!follow);
-  };
   return (
     <main className="h-full border-r  border-gray-700 p-4">
       {/* input */}

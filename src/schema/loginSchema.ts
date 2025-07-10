@@ -1,4 +1,4 @@
-import z, { ParseStatus } from "zod";
+import z from "zod";
 
 export const LoginScemas = z.object({
   email: z.string().min(5, { message: "Email is Required" }),
