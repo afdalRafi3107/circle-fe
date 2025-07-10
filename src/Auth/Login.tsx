@@ -1,4 +1,3 @@
-import React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNavigate, NavLink } from "react-router-dom";
@@ -6,14 +5,14 @@ import { useForm } from "react-hook-form";
 import { LoginScemas, type LoginScemaType } from "@/schema/loginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 // import { login } from "@/api/axios";
-import api from "@/api/axios";
+
 import { useAuth } from "./AuthContext/AuthContext";
 import { useLogin } from "@/hooks/use-login";
 
 export function LoginPage() {
   const Navigate = useNavigate();
   const { logIn, isAuth } = useAuth();
-  const { mutateLogin, isPending } = useLogin();
+  const { mutateLogin } = useLogin();
   if (isAuth) {
     Navigate("/");
   }
@@ -44,6 +43,9 @@ export function LoginPage() {
             placeholder="Username"
             type="email"
           />
+          {errors.email && (
+            <p className="text-red-500">{errors.email.message}</p>
+          )}
 
           <Input
             className="h-12 bg-white"
@@ -51,7 +53,9 @@ export function LoginPage() {
             placeholder="Password"
             type="password"
           />
-
+          {errors.password && (
+            <p className="text-red-500">{errors.password.message}</p>
+          )}
           <NavLink
             className="text-right text-white text-md hover:text-green-600"
             to={"/forgotpassword"}

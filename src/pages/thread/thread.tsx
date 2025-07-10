@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+// import { useEffect, useState } from "react";
+// import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { MdOutlineInsertComment } from "react-icons/md";
 import { UseThread } from "@/hooks/use-thread";
 import { Button } from "@/components/ui/button";
@@ -13,15 +13,15 @@ import { EditPostDialog } from "../featureButton/editTrhread";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
+  // DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
+  // DropdownMenuLabel,
+  // DropdownMenuPortal,
+  // DropdownMenuSeparator,
+  // DropdownMenuShortcut,
+  // DropdownMenuSub,
+  // DropdownMenuSubContent,
+  // DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { FaEllipsisV } from "react-icons/fa";

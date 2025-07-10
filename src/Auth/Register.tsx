@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "react-router-dom";
@@ -12,7 +12,7 @@ import { useRegister } from "@/hooks/use-register";
 import Swal from "sweetalert2";
 
 export function Registerpage() {
-  const { mutateRegister, isPending } = useRegister();
+  const { mutateRegister } = useRegister();
   const {
     register,
     handleSubmit,
@@ -21,8 +21,6 @@ export function Registerpage() {
     mode: "onChange",
     resolver: zodResolver(RegisterScemas),
   });
-
-  const Navigate = useNavigate();
 
   const onSubmit = async (data: RegisterScemnasDTO) => {
     await mutateRegister(data);
