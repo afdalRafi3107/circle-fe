@@ -1,9 +1,7 @@
 import api from "@/api/axios";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { data } from "react-router-dom";
-
+import { useMutation } from "@tanstack/react-query";
 export const useFollow = () => {
-  const { mutateAsync: mutateFollowing, data: dataFollowing } = useMutation({
+  const { mutateAsync: mutateFollowing } = useMutation({
     mutationKey: ["following"],
     mutationFn: async (followingId: number) => {
       const res = await api.post("/follow", { followingId });

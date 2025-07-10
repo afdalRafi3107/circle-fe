@@ -23,7 +23,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 export const useLike = () => {
   const QueryClient = useQueryClient();
-  const { mutateAsync: muatateLike, data: dataLike } = useMutation({
+  const { mutateAsync: muatateLike} = useMutation({
     mutationKey: ["like"],
     mutationFn: async (id: number) => {
       const res = await api.post(`/like/${id}`);
