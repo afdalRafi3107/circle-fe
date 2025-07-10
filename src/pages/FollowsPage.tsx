@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useFollowres } from "@/hooks/use-followers";
 import { apiUpload } from "@/utils/urlimg";
-import { FollowButton } from "./buttonFollow.tsx/follow";
+import { FollowButton } from "./featureButton/follow";
 import { useFollowing } from "@/hooks/use-folowing";
 
 function Follows() {
@@ -21,7 +21,7 @@ function Follows() {
   if (isLoading) return <div>Loading...</div>;
   if (isError || !followers) return <div>Gagal Mengambil thread</div>;
   return (
-    <main className="h-screen border-l border-gray-500 p-5">
+    <main className="h-screen border-r border-gray-700 p-5">
       {/* Post and media */}
       <div className="Tabs">
         <Tabs
@@ -50,7 +50,7 @@ function Follows() {
           <TabsContent value="followers" className="">
             {/* Followers */}
             {followers.map((data: any) => (
-              <div className="flex flex-col pb-2 ">
+              <div className="flex flex-col mb-5">
                 {/* User Followers */}
                 <div className="UserSugested flex justify-between items-center">
                   <div className="flex items-center gap-2">
@@ -80,7 +80,7 @@ function Follows() {
           <TabsContent value="following" className="">
             {/* Following */}
             {following?.follow?.map((followItem: any) => (
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-10 mb-5">
                 {/* User Following */}
                 <div className="UserSugested flex justify-between items-center">
                   <div className="flex items-center gap-2">
@@ -102,7 +102,7 @@ function Follows() {
                       </p>
                     </div>
                   </div>
-                  <FollowButton userId={followItem.following.profile[0]?.id} />
+                  <FollowButton userId={followItem.following.id} />
                 </div>
               </div>
             ))}

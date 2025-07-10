@@ -3,12 +3,14 @@ import { FaArrowLeft } from "react-icons/fa";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UseProfile } from "@/hooks/use-profile";
 import { DialogEditProfile } from "@/layout/sidebars/rightBar";
-import { PostListByUser } from "./thread/postByUser";
+import { PostListByUser } from "../thread/postByUser";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Media } from "./thread/media";
+import { Media } from "../thread/media";
 import { apiUpload } from "@/utils/urlimg";
 import { useUserPofile } from "@/hooks/use-userProfieById";
 import { useParams } from "react-router-dom";
+import { PostListByUserProfile } from "./PosByUserProfile";
+import { MediaByUSerProfile } from "./MediaByUserProfile";
 
 function ProfileById() {
   const { id } = useParams();
@@ -49,7 +51,7 @@ function ProfileById() {
                 <img
                   src={
                     user.profile[0].photoProfile
-                      ? `${apiUpload}${user.proPile[0].photoProfile}`
+                      ? `${apiUpload}${user.profile[0]?.photoProfile}`
                       : "/defaultIMG/defaultP.jpg"
                   }
                   alt=""
@@ -64,9 +66,9 @@ function ProfileById() {
           </div>
           {/* profile */}
           <div className="flex flex-col gap-2.5 pb-3">
-            <p className="font-bold text-xl">{user.profile[0].name}</p>
+            <p className="font-bold text-xl">{user.profile[0]?.name}</p>
             <p className="text-sm text-gray-300">@{user.username}</p>
-            <p className="text-md">{user.profile[0].bio}</p>
+            <p className="text-md">{user.profile[0]?.bio}</p>
             {/* follwing/followers */}
             <div className="flex gap-4 text-sm">
               <div className="flex gap-1.5">
@@ -100,10 +102,10 @@ function ProfileById() {
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="allpost">
-                <PostListByUser />
+                <PostListByUserProfile />
               </TabsContent>
               <TabsContent value="media">
-                <Media />
+                <MediaByUSerProfile />
               </TabsContent>
             </Tabs>
           </div>

@@ -1,0 +1,14 @@
+import { useQuery } from "@tanstack/react-query";
+import api from "@/api/axios";
+
+export function useLikeStatus(likeStatus: number) {
+  console.log("id like status:", likeStatus);
+
+  return useQuery({
+    queryKey: ["likestatus", likeStatus],
+    queryFn: async () => {
+      const res = await api.get(`/like-status/${likeStatus}`);
+      return res.data;
+    },
+  });
+}

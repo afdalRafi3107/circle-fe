@@ -2,12 +2,12 @@ import { createBrowserRouter } from "react-router-dom";
 import ProtectedRoutes from "./PrivateRoutes";
 import { Home } from "@/pages/dashBoard";
 import { LoginPage } from "@/Auth/Login";
-import { dsatu } from "@/pages/satu";
+import Search from "@/pages/Search";
 import Profile from "@/pages/profile/Profile";
 import Follows from "@/pages/FollowsPage";
 import { Registerpage } from "@/Auth/Register";
 import DetailThread from "@/pages/thread/DetailThread";
-import ProfileById from "@/pages/userprofileById";
+import ProfileById from "@/pages/User Prodile/userprofileById";
 
 let router = createBrowserRouter([
   {
@@ -18,8 +18,8 @@ let router = createBrowserRouter([
         Component: Home,
       },
       {
-        path: "/2",
-        Component: dsatu,
+        path: "/search",
+        Component: Search,
       },
       {
         path: "/profile",

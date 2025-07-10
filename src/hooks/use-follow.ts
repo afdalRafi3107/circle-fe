@@ -6,7 +6,6 @@ export const useFollow = () => {
   const { mutateAsync: mutateFollowing, data: dataFollowing } = useMutation({
     mutationKey: ["following"],
     mutationFn: async (followingId: number) => {
-
       const res = await api.post("/follow", { followingId });
       return res.data;
     },

@@ -12,11 +12,15 @@ export function useCreateThread() {
     mutationFn: async (data: createThreadDTO) => {
       const formData = new FormData();
       formData.append("content", data.content);
-      formData.append("img", data.img[0]); // file dari input file
+      if (data.img) {
+        formData.append("img", data.img);
+      }
+      console.log("data create thread :", formData);
 
       const res = await api.post("/create-thread", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+
       return res.data;
     },
   });

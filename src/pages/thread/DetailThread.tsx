@@ -3,6 +3,7 @@ import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { Input } from "@/components/ui/input";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { getRelatifTime } from "@/utils/time";
 
 import { BiCommentDetail } from "react-icons/bi";
 
@@ -26,17 +27,18 @@ import { useReply } from "@/hooks/use-replythread";
 import { useForm } from "react-hook-form";
 import { type replyScemasDTO, replySchemas } from "@/schema/replySchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useToggleLikeThread } from "@/hooks/use-like";
+// import { useToggleLikeThread } from "@/hooks/use-like";
 import { Import } from "lucide-react";
 import { UseProfile } from "@/hooks/use-profile";
+import { LikeButton } from "../featureButton/like";
+import { ButtonDeleteReply } from "../featureButton/DeleteButtonReply";
+import { LikeReplyButton } from "../featureButton/likeReply";
 
 function DetailThread() {
   const { id } = useParams();
+  const { data: userLogin } = UseProfile();
 
   const navigate = useNavigate();
-
-  const [liked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
 
   const handleGoBack = () => {
     navigate(-1);
@@ -49,25 +51,7 @@ function DetailThread() {
   // get detail thread
   const { data: thread, isError, isLoading } = useDetailThread(id || "");
   const { data: user } = UseProfile();
-  const { mutate: toggleLike } = useToggleLikeThread();
-
-  useEffect(() => {
-    if (thread) {
-      setLiked(thread.isLike);
-      setLikeCount(thread._count.like);
-    }
-  }, [thread]);
-
-  const handleLikeToogle = async () => {
-    if (!thread) return;
-    try {
-      setLiked((prev) => !prev);
-      setLikeCount((prev) => (liked ? prev - 1 : prev + 1));
-      toggleLike(thread.id);
-    } catch (error) {
-      console.log("Error toggling like:", error);
-    }
-  };
+  // const { mutate: toggleLike } = useToggleLikeThread();
 
   // create Reply
   const { mutateReply, isPending } = useReply(id || "");
@@ -124,7 +108,7 @@ function DetailThread() {
                 <div className="flex flex-col gap-0.5 items-center">
                   <NavLink
                     to={
-                      user.id == thread.author.id
+                      user?.id == thread.author?.id
                         ? "/profile"
                         : `/user-profile/${thread.author?.id}`
                     }
@@ -137,26 +121,28 @@ function DetailThread() {
                   </p>
                 </div>
                 <div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger>
-                      <FaEllipsisV
-                        size={12}
-                        className="text-white cursor-pointer hover:text-gray-400"
-                      />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="bg-gray-900">
-                      <DropdownMenuItem className="w-full hover:bg-gray-800">
-                        <a href="#" className="text-white">
-                          Update
-                        </a>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="w-full hover:bg-gray-800">
-                        <Button className="p-0 text-white font-normal">
-                          Delete
-                        </Button>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  {userLogin.id == thread.author?.id ? (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger>
+                        <FaEllipsisV
+                          size={12}
+                          className="text-white cursor-pointer hover:text-gray-400"
+                        />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className="bg-gray-900">
+                        <DropdownMenuItem className="w-full hover:bg-gray-800">
+                          <a href="#" className="text-white">
+                            Update
+                          </a>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="w-full hover:bg-gray-800">
+                          <Button className="p-0 text-white font-normal">
+                            Delete
+                          </Button>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  ) : null}
                 </div>
               </div>
               <p className="text-gray-200 text-justify">{thread.content}</p>
@@ -189,17 +175,10 @@ function DetailThread() {
               <div className="mt-3 ml-2 flex gap-15 ">
                 {/* Like */}
                 <div className="flex items-center gap-1">
-                  <Button
-                    onClick={handleLikeToogle}
-                    className={`p-0 w-0 h-auto cursor-pointer bg-none text-gray-400 hover:text-red-400`}
-                  >
-                    {liked ? (
-                      <FaHeart size={15} className="text-red-700" />
-                    ) : (
-                      <FaRegHeart size={15} className="" />
-                    )}
-                    <span className=" text-xs">{thread._count.like}</span>
-                  </Button>
+                  <LikeButton
+                    idThread={thread.id}
+                    likeCount={thread._count.like}
+                  />
                 </div>
 
                 {/* Commment */}
@@ -291,7 +270,9 @@ function DetailThread() {
                       {reply.author?.username}
                     </p>
                     <p className="text-2sm text-gray-400">•</p>
-                    <p className="text-sm text-gray-400">4h</p>
+                    <p className="text-sm text-gray-400">
+                      {getRelatifTime(new Date(reply.createAt))}
+                    </p>
                   </div>
                   <div>
                     <DropdownMenu>
@@ -308,17 +289,21 @@ function DetailThread() {
                           </a>
                         </DropdownMenuItem>
                         <DropdownMenuItem className="w-full hover:bg-gray-800">
-                          <Button className=" p-0 text-white font-normal">
-                            Delete
-                          </Button>
+                          <ButtonDeleteReply id={reply?.id} />
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
                 </div>
-                <p className="text-gray-200 text-sm text-justify">
-                  {reply.comment}
-                </p>
+                <div className="flex flex-col gap-3 text-justify">
+                  <p className="text-gray-200 text-sm text-justify">
+                    {reply.comment}
+                  </p>
+                  <LikeReplyButton
+                    idReply={reply.id}
+                    likeCount={reply._count?.likeReply}
+                  />
+                </div>
               </div>
             </div>
           </div>

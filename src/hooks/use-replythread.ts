@@ -17,6 +17,7 @@ export function useReply(id: string) {
     },
     onSuccess: () => {
       QueryClient.invalidateQueries({ queryKey: ["reply"] });
+      QueryClient.invalidateQueries({ queryKey: ["detailThread"] });
     },
   });
   return { mutateReply, dataReply, isPending };

@@ -34,7 +34,7 @@ export function LoginPage() {
 
   return (
     <>
-      <div className="flex flex-col gap-3 m-auto w-md mt-50 align-text-bottom text-left">
+      <div className="flex flex-col gap-4 px-4 py-10 mx-auto mt-20 w-full max-w-md sm:mt-32">
         <p className="font-bold text-4xl text-green-600">CIRCLE</p>
         <p className="text-white text-3xl font-bold">Login To Circle</p>
         <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>

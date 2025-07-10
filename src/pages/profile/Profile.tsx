@@ -8,26 +8,31 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Media } from "../thread/media";
 import { apiUpload } from "@/utils/urlimg";
 import { useSugestFollow } from "@/hooks/use-sugestFollow";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
   const { data: user, isLoading, isError } = UseProfile();
   // const { data: folow } = useSugestFollow();
   // console.log(folow);
+  const Navigate = useNavigate();
 
   if (isLoading) return <div>Loading...</div>;
   if (isError || !user) return <div>Gagal mengambil profil</div>;
 
   return (
     <>
-      <ScrollArea className="flex flex-col gap-6 w-full p-2 text-white border-r-2  border-gray-600 h-screen">
+      <ScrollArea className="flex flex-col gap-6 w-full p-2 text-white border-r  border-gray-600 h-screen">
         <div className="  ">
           {/* comback button */}
 
           <div className="flex gap-3 items-center mb-2">
-            <Button>
+            <Button
+              onClick={() => Navigate(-1)}
+              className="cursor-pointer hover:text-gray-400  "
+            >
               <FaArrowLeft />
             </Button>
-            <p>{user.profile[0].name}</p>
+            <p className="font-semibold">{user.profile[0].name}</p>
           </div>
           {/* profile detail */}
           <div className="p-2">
@@ -46,7 +51,7 @@ function Profile() {
                 <img
                   src={
                     user.profile[0].photoProfile
-                      ? `${apiUpload}${user.proPile[0].photoProfile}`
+                      ? `${apiUpload}${user.profile[0].photoProfile}`
                       : "/defaultIMG/defaultP.jpg"
                   }
                   alt=""
@@ -67,11 +72,11 @@ function Profile() {
             {/* follwing/followers */}
             <div className="flex gap-4 text-sm">
               <div className="flex gap-1.5">
-                <p className="font-bold">54</p>
+                <p className="font-bold">{user._count.follow}</p>
                 <p className="text-gray-300">Following</p>
               </div>
               <div className="flex gap-1.5">
-                <p className="font-bold ">1023</p>
+                <p className="font-bold ">{user._count.followers}</p>
                 <p className="text-gray-300">Followers</p>
               </div>
             </div>

@@ -1,11 +1,11 @@
 import api from "@/api/axios";
 import { useQuery } from "@tanstack/react-query";
 
-export const useSugestFollow = () => {
+export const useMediaByProfile = (id: string) => {
   return useQuery({
-    queryKey: ["sugestFollow"],
+    queryKey: ["postByUser", id],
     queryFn: async () => {
-      const res = await api.get("/sugest-follow");
+      const res = await api.get(`/allpost-media-profile/${id}`);
 
       return res.data;
     },

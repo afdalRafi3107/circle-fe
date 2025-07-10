@@ -5,7 +5,7 @@ export const usePostByUser = () => {
   return useQuery({
     queryKey: ["postByUser"],
     queryFn: async () => {
-      const res = await api.get("/allpost-user");
+      const res = await api.get(`/allpost-user`);
 
       return res.data;
     },

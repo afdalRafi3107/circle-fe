@@ -22,10 +22,19 @@ import {
 import { NavLink } from "react-router-dom";
 import { ButtonDeleteThread } from "../featureButton/DeleteButtonThread";
 import { FaEllipsisV } from "react-icons/fa";
+import { useParams } from "react-router-dom";
+import { usePostByUserProfile } from "@/hooks/use-GetPostByUserProfile";
 import { LikeButton } from "../featureButton/like";
 
-export function PostListByUser() {
-  const { data: post, isLoading, isError } = usePostByUser();
+export function PostListByUserProfile() {
+  const { id } = useParams();
+  const [Liked, setLiked] = useState(false);
+
+  const klikLike = () => {
+    setLiked(!Liked);
+  };
+
+  const { data: post, isLoading, isError } = usePostByUserProfile(id || "");
   console.log("data post:", post);
   if (isLoading) return <div>Loading...</div>;
   if (isError || !post) return <div>Gagal Mengambil thread</div>;

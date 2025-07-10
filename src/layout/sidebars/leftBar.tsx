@@ -31,8 +31,10 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
+import { useLocation } from "react-router-dom";
 
 export const LeftBar = () => {
+  const location = useLocation();
   const { logOut } = useAuth();
   const Navigate = useNavigate();
   const LogOut = () => {
@@ -42,7 +44,7 @@ export const LeftBar = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-3 text-2xl text-white w-1/4 text-left h-screen p-5 border-r-2 border-gray-700">
+      <div className="flex flex-col gap-3 text-2xl text-white w-1/4 text-left h-screen p-5 border-r border-gray-700">
         <h1 className="text-green-400 text-3xl font-bold mb-2">CIRCLE</h1>
         <div className="flex flex-col gap-6 ">
           {/* Home */}
@@ -50,17 +52,39 @@ export const LeftBar = () => {
             to="/"
             className="flex items-center gap-2 hover:text-green-400"
           >
-            <AiOutlineHome className="text-2xl" />
-            <p className="">Home</p>
+            {location.pathname === "/" ? (
+              <AiOutlineHome className="text-2xl text-green-400" />
+            ) : (
+              <AiOutlineHome className="text-2xl text-white" />
+            )}
+            <span
+              className={
+                location.pathname === "/" ? "text-green-400" : "text-white"
+              }
+            >
+              Home
+            </span>
           </NavLink>
 
           {/* Search */}
           <NavLink
-            to="/2"
+            to="/search"
             className="flex items-center gap-2 hover:text-green-400"
           >
-            <BsSearchHeart className="text-2xl" />
-            <p className="">Search</p>
+            {location.pathname === "/search" ? (
+              <BsSearchHeart className="text-2xl text-green-400" />
+            ) : (
+              <BsSearchHeart className="text-2xl text-white" />
+            )}
+            <p
+              className={
+                location.pathname === "/search"
+                  ? "text-green-400"
+                  : "text-white"
+              }
+            >
+              Search
+            </p>
           </NavLink>
 
           {/* Follows */}
@@ -68,8 +92,20 @@ export const LeftBar = () => {
             to="/follows"
             className="flex items-center gap-2 hover:text-green-400"
           >
-            <BsHeart className="text-2xl" />
-            <p className="">Follows</p>
+            {location.pathname === "/follows" ? (
+              <BsHeart className="text-2xl text-green-400" />
+            ) : (
+              <BsHeart className="text-2xl text-white" />
+            )}
+            <p
+              className={
+                location.pathname === "/follows"
+                  ? "text-green-400"
+                  : "text-white"
+              }
+            >
+              Follows
+            </p>
           </NavLink>
 
           {/* profile */}
@@ -77,8 +113,20 @@ export const LeftBar = () => {
             to="/profile"
             className="flex items-center gap-2 hover:text-green-400"
           >
-            <FaRegUserCircle className="text-2xl" />
-            <p className="">Profile</p>
+            {location.pathname === "/profile" ? (
+              <FaRegUserCircle className="text-2xl text-green-400" />
+            ) : (
+              <FaRegUserCircle className="text-2xl text-white" />
+            )}
+            <p
+              className={
+                location.pathname === "/profile"
+                  ? "text-green-400"
+                  : "text-white"
+              }
+            >
+              Profile
+            </p>
           </NavLink>
 
           <DialogPost />
@@ -108,22 +156,24 @@ function DialogPost() {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<createThreadDTO>({
-    mode: "onChange",
     resolver: zodResolver(createThreadSchemas),
   });
+
+  const handelImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setPreview(URL.createObjectURL(file));
+      setValue("img", file);
+    }
+  };
 
   const onsubmit = (data: createThreadDTO) => {
     mutateCreateThread(data);
     console.log("data yang masuk : ", data);
   };
   const [preview, setPreview] = useState<string | null>(null);
-  const handleImgChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setPreview(URL.createObjectURL(file));
-    }
-  };
   return (
     <>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -154,12 +204,24 @@ function DialogPost() {
               <div className="grid gap-3">
                 <Label htmlFor="username-1"></Label>
                 <Input
-                  {...register("img")}
                   type="file"
-                  onChange={handleImgChange}
+                  accept="image/"
+                  onChange={handelImageChange}
                 />
                 {preview && (
-                  <img src={preview} alt="preview" className="w-32 mt-2" />
+                  <div className="flex flex-col gap-2">
+                    <img src={preview} alt="preview" className="w-32 mt-2" />
+                    <Button
+                      type="button"
+                      className="bg-red-500 w-fit"
+                      onClick={() => {
+                        setPreview(null);
+                        setValue("img", undefined); // reset file dari form
+                      }}
+                    >
+                      Hapus Gambar
+                    </Button>
+                  </div>
                 )}
               </div>
             </div>
