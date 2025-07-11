@@ -157,7 +157,7 @@ function DialogPost() {
     resolver: zodResolver(createThreadSchemas),
   });
 
-  const handelImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setPreview(URL.createObjectURL(file));
@@ -167,22 +167,24 @@ function DialogPost() {
 
   const onsubmit = (data: createThreadDTO) => {
     mutateCreateThread(data);
+    setIsOpen(false);
+    setPreview(null);
     console.log("data yang masuk : ", data);
   };
   const [preview, setPreview] = useState<string | null>(null);
   return (
     <>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <form encType="multipart/form-data">
-          <DialogTrigger asChild>
-            <Button
-              variant={null}
-              className="w-full bg-green-500 text-xl h-3xl hover:bg-green-400 cursor-pointer"
-            >
-              Create Post
-            </Button>
-          </DialogTrigger>
-          <DialogContent className=" bg-gray-950 text-white border-0">
+        <DialogTrigger asChild>
+          <Button
+            variant={null}
+            className="w-full bg-green-500 text-xl h-3xl hover:bg-green-400 cursor-pointer"
+          >
+            Create Post
+          </Button>
+        </DialogTrigger>
+        <DialogContent className=" bg-gray-950 text-white border-0">
+          <form encType="multipart/form-data" onSubmit={handleSubmit(onsubmit)}>
             <DialogHeader>
               <DialogTitle>Ceate Post</DialogTitle>
             </DialogHeader>
@@ -202,7 +204,7 @@ function DialogPost() {
                 <Input
                   type="file"
                   accept="image/"
-                  onChange={handelImageChange}
+                  onChange={handleImageChange}
                 />
                 {preview && (
                   <div className="flex flex-col gap-2">
@@ -223,14 +225,14 @@ function DialogPost() {
             </div>
             <DialogFooter>
               <Button
-                onClick={handleSubmit(onsubmit)}
+                type="submit"
                 className="bg-green-500 cursor-pointer active:bg-green-400"
               >
                 post
               </Button>
             </DialogFooter>
-          </DialogContent>
-        </form>
+          </form>
+        </DialogContent>
       </Dialog>
     </>
   );

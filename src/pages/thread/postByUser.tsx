@@ -1,7 +1,6 @@
 import { MdOutlineInsertComment } from "react-icons/md";
 import { Button } from "@/components/ui/button";
 import { usePostByUser } from "@/hooks/use-postByUser";
-import { apiUpload } from "@/utils/urlimg";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,7 +26,7 @@ export function PostListByUser() {
           <img
             src={
               post.author?.profile?.[0].photoProfile
-                ? `${apiUpload}${post.author?.profile?.[0].photoProfile}`
+                ? `${post.author?.profile?.[0].photoProfile}`
                 : "../defaultIMG/defaultP.jpg"
             }
             alt=""
@@ -71,11 +70,7 @@ export function PostListByUser() {
                 <p className="text-sm text-gray-200 text-justify">
                   {post.content}
                 </p>
-                <img
-                  src={`${apiUpload}${post.img}`}
-                  alt=""
-                  className="w-80 rounded-2xl"
-                />
+                <img src={`${post.img}`} alt="" className="w-80 rounded-2xl" />
               </NavLink>
             </div>
             {/* likes and comments */}

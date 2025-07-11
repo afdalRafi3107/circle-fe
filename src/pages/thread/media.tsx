@@ -1,6 +1,5 @@
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useMediaByUser } from "@/hooks/use-mediaByUser copy";
-import { apiUpload } from "@/utils/urlimg";
 
 export function Media() {
   const { data: media, isLoading, isError } = useMediaByUser();
@@ -15,7 +14,7 @@ export function Media() {
               <div key={media.id}>
                 <img
                   className="h-40 w-80 max-w-full rounded-lg object-cover object-center cursor-pointer hover:bg-transparent"
-                  src={`${apiUpload}${media.img}`}
+                  src={`${media.img}`}
                   alt="gallery-photo"
                 />
               </div>
@@ -25,7 +24,7 @@ export function Media() {
             <div key={media.id} className="w-full">
               <img
                 className="max-w-screen-lg max-h-screen-lg object-contain rounded-md shadow-lg"
-                src={`${apiUpload}${media.img}`}
+                src={`${media.img}`}
                 alt="gallery-photo"
               />
             </div>

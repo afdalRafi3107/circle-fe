@@ -6,7 +6,6 @@ import { DialogEditProfile } from "@/layout/sidebars/rightBar";
 import { PostListByUser } from "../thread/postByUser";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Media } from "../thread/media";
-import { apiUpload } from "@/utils/urlimg";
 import { useNavigate } from "react-router-dom";
 
 function Profile() {
@@ -40,7 +39,7 @@ function Profile() {
               <img
                 src={
                   user.profile[0].banner
-                    ? `${apiUpload}${user.profile[0].banner}`
+                    ? `${user.profile[0].banner}`
                     : "/defaultIMG/defaultB.jpg"
                 }
                 alt=""
@@ -50,7 +49,7 @@ function Profile() {
                 <img
                   src={
                     user.profile[0].photoProfile
-                      ? `${apiUpload}${user.profile[0].photoProfile}`
+                      ? `${user.profile[0].photoProfile}`
                       : "/defaultIMG/defaultP.jpg"
                   }
                   alt=""

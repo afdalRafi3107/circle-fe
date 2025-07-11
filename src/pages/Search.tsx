@@ -2,7 +2,6 @@ import { FaSearch } from "react-icons/fa";
 
 import { useState } from "react";
 import { useSearch } from "@/hooks/use-search";
-import { apiUpload } from "@/utils/urlimg";
 import { FollowButton } from "./featureButton/follow";
 import { NavLink } from "react-router-dom";
 import { UseProfile } from "@/hooks/use-profile";
@@ -46,7 +45,7 @@ function Search() {
                 <img
                   src={
                     user.profile[0]?.photoProfile
-                      ? `${apiUpload}${user.profile[0]?.photoProfile}`
+                      ? `${user.profile[0]?.photoProfile}`
                       : "/defaultIMG/defaultP.jpg"
                   }
                   alt=""

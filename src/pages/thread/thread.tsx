@@ -4,7 +4,6 @@ import { MdOutlineInsertComment } from "react-icons/md";
 import { UseThread } from "@/hooks/use-thread";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "react-router-dom";
-import { apiUpload } from "@/utils/urlimg";
 import { UseProfile } from "@/hooks/use-profile";
 import { ButtonDeleteThread } from "../featureButton/DeleteButtonThread";
 import { getRelatifTime } from "@/utils/time";
@@ -33,25 +32,23 @@ export function ThreadList() {
 
   if (isLoading) return <div>Loading...</div>;
   if (isError || !thread) return <div>Gagal Mengambil thread</div>;
-  console.log("thread list : ", thread);
-  console.log("user yang Login : ", user);
 
   return (
     <>
       {thread.map((thread: any) => (
-        <div className="flex gap-4 p-3 border-b border-gray-700">
+        <div className="w-full flex gap-4 col-end-2 p-3 border-b border-gray-700">
           <img
             src={
               thread.author.profile?.[0]?.photoProfile
-                ? `${apiUpload}${thread.author.profile?.[0].photoProfile}`
+                ? `${thread.author.profile?.[0].photoProfile}`
                 : "/defaultIMG/defaultP.jpg"
             }
             alt=""
             className="w-12 h-12 rounded-4xl"
           />
           <div>
-            <div className="flex items-center gap-2 justify-between">
-              <div className="name flex items-center gap-2">
+            <div className="flex items-center gap-2 justify-between p">
+              <div className="name w-full flex items-center gap-2">
                 <NavLink
                   to={
                     user?.id == thread.authorID
@@ -108,7 +105,7 @@ export function ThreadList() {
                   {thread.content}
                 </p>
                 <img
-                  src={`${apiUpload}${thread.img}`}
+                  src={`${thread.img}`}
                   alt=""
                   className="w-80 rounded-2xl"
                 />

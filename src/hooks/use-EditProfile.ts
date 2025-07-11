@@ -12,6 +12,8 @@ export function useEdtProfile() {
   } = useMutation({
     mutationKey: ["editProfile"],
     mutationFn: async (data: editProfileDTO) => {
+      console.log("data Edit Profile : ", data);
+
       const formData = new FormData();
       formData.append("name", data.name);
       formData.append("username", data.username);

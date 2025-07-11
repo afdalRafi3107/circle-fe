@@ -3,7 +3,6 @@ import { FaArrowLeft } from "react-icons/fa";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DialogEditProfile } from "@/layout/sidebars/rightBar";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { apiUpload } from "@/utils/urlimg";
 import { useUserPofile } from "@/hooks/use-userProfieById";
 import { useParams } from "react-router-dom";
 import { PostListByUserProfile } from "./PosByUserProfile";
@@ -38,7 +37,7 @@ function ProfileById() {
               <img
                 src={
                   user.profile[0].banner
-                    ? `${apiUpload}${user.profile[0].banner}`
+                    ? `${user.profile[0].banner}`
                     : "/defaultIMG/defaultB.jpg"
                 }
                 alt=""
@@ -48,7 +47,7 @@ function ProfileById() {
                 <img
                   src={
                     user.profile[0].photoProfile
-                      ? `${apiUpload}${user.profile[0]?.photoProfile}`
+                      ? `${user.profile[0]?.photoProfile}`
                       : "/defaultIMG/defaultP.jpg"
                   }
                   alt=""

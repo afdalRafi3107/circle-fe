@@ -6,8 +6,6 @@ import { getRelatifTime } from "@/utils/time";
 
 import { BiCommentDetail } from "react-icons/bi";
 
-import { apiUpload } from "@/utils/urlimg";
-
 import { FaArrowLeft, FaEllipsisV } from "react-icons/fa";
 
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
@@ -89,7 +87,7 @@ function DetailThread() {
                 <img
                   src={
                     thread.author?.profile?.[0].photoProfile
-                      ? `${apiUpload}${thread.author?.profile?.[0].photoProfile}`
+                      ? `${thread.author?.profile?.[0].photoProfile}`
                       : "../defaultIMG/defaultP.jpg"
                   }
                   alt="profile"
@@ -143,7 +141,7 @@ function DetailThread() {
               <Dialog>
                 <DialogTrigger className="cursor-pointer">
                   <img
-                    src={`${apiUpload}${thread.img}`}
+                    src={`${thread.img}`}
                     alt=""
                     className="max-h-50 mt-2 rounded-2xl object-cover"
                   />
@@ -152,7 +150,7 @@ function DetailThread() {
                   <div className="">
                     <img
                       className="w-full rounded-2xl"
-                      src={`${apiUpload}${thread.img}`}
+                      src={`${thread.img}`}
                       alt="gallery-photo"
                     />
                   </div>
@@ -243,7 +241,7 @@ function DetailThread() {
                   <img
                     src={
                       reply.author?.profile?.[0].img
-                        ? `${apiUpload}${reply.author.profile?.[0].img}`
+                        ? `${reply.author.profile?.[0].img}`
                         : "../defaultIMG/defaultP.jpg"
                     }
                     alt="profile"

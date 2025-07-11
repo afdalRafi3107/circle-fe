@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ThreadList } from "./thread/thread";
 import { UseProfile } from "@/hooks/use-profile";
-import { apiUpload } from "@/utils/urlimg";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   type createThreadDTO,
@@ -48,7 +47,7 @@ export function Home() {
             <img
               src={
                 user.profile?.[0]?.photoProfile
-                  ? `${apiUpload}${user.profile[0].photoProfile}`
+                  ? `${user.profile[0].photoProfile}`
                   : "../defaultIMG/defaultP.jpg"
               }
               alt=""

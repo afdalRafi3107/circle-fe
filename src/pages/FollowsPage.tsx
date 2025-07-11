@@ -1,14 +1,11 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useFollowres } from "@/hooks/use-followers";
-import { apiUpload } from "@/utils/urlimg";
 import { FollowButton } from "./featureButton/follow";
 import { useFollowing } from "@/hooks/use-folowing";
 
 function Follows() {
   const { data: followers, isLoading, isError } = useFollowres();
   const { data: following } = useFollowing();
-
-  console.log("followres detail: ", following);
 
   if (isLoading) return <div>Loading...</div>;
   if (isError || !followers) return <div>Gagal Mengambil thread</div>;
@@ -45,7 +42,7 @@ function Follows() {
                     <img
                       src={
                         data?.follower?.profile?.[0]?.photoProfile
-                          ? `${apiUpload}${data?.follower?.profile?.[0]?.photoProfile}`
+                          ? `${data?.follower?.profile?.[0]?.photoProfile}`
                           : "/defaultIMG/defaultP.jpg"
                       }
                       alt=""
@@ -75,7 +72,7 @@ function Follows() {
                     <img
                       src={
                         followItem.following.profile[0]?.photoProfile
-                          ? `${apiUpload}${followItem.following.profile[0]?.photoProfile}`
+                          ? `${followItem.following.profile[0]?.photoProfile}`
                           : "/defaultIMG/defaultP.jpg"
                       }
                       alt=""

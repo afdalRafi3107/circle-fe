@@ -6,7 +6,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <div className="flex">
       <LeftBar />
 
-      <section className=" w-300">{children}</section>
+      <section className=" w-full">{children}</section>
 
       <RightBar />
     </div>

@@ -11,14 +11,10 @@ interface likeProps {
 export function LikeButton({ idThread, likeCount }: likeProps) {
   const { data: isLike } = useLikeStatus(idThread);
   const { muatateLike } = useLike();
-  console.log("likeCount : ", likeCount);
 
-  console.log("islikde luar:", isLike);
   const handleLikeToogle = () => {
     muatateLike(idThread);
-    // refetch();
-    console.log("islikde:", isLike);
-    console.log("id yang di like: ", idThread);
+    
   };
   return (
     <div className="flex items-center gap-1">

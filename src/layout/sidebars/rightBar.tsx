@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -27,29 +27,15 @@ import { useForm } from "react-hook-form";
 import type { editProfileDTO } from "@/schema/editProfileSchemas";
 import { editProfileSchema } from "@/schema/editProfileSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { apiUpload } from "@/utils/urlimg";
 import { useSugestFollow } from "@/hooks/use-sugestFollow";
 import { FollowButton } from "@/pages/featureButton/follow";
 import { useLocation } from "react-router-dom";
 
 export function RightBar() {
-  const [img, setImg] = useState<string | null>(null);
-
   const { data: user, isLoading, isError } = UseProfile();
   const { data: SugetsFollow } = useSugestFollow();
   console.log("sugestFollow :ss ", SugetsFollow);
 
-  useEffect(() => {
-    const banner = user?.profile?.[0]?.banner;
-    const imgProfile = banner
-      ? `${apiUpload}${banner}`
-      : "/defaultIMG/defaultB.jpg";
-    setImg(imgProfile);
-  }, [user]);
-  // const { data: user, isLoading } = useQuery({
-  //   queryKey: ["user"],
-  //   queryFn: fecthUser,
-  // });
   const location = useLocation();
 
   if (isLoading) return <div>Loading...</div>;
@@ -57,13 +43,17 @@ export function RightBar() {
 
   return (
     <>
-      <div className="flex flex-col w-1/4 p-3 gap-3 ">
+      <div className="w-1/3 flex flex-col p-3 gap-3">
         {location.pathname === "/profile" ? null : (
           <div className="flex flex-col gap-3 h-fit bg-gray-950 text-white p-3 rounded-2xl">
             <p className="text-xl font-bold">My Profile</p>
             <div className="flex flex-col gap-3">
               <img
-                src={img ?? "/defaultIMG/defaultB.jpg"}
+                src={
+                  user.profile[0].photoProfile
+                    ? `${user.profile[0].banner}`
+                    : "/defaultIMG/defaultB.jpg"
+                }
                 alt="banner"
                 className="h-25 w-full object-cover cursor-pointer rounded-2xl"
               />
@@ -71,7 +61,7 @@ export function RightBar() {
                 <img
                   src={
                     user.profile[0].photoProfile
-                      ? `${apiUpload}${user.profile[0].photoProfile}`
+                      ? `${user.profile[0].photoProfile}`
                       : "/defaultIMG/defaultP.jpg"
                   }
                   alt="Profile iamge"
@@ -183,6 +173,8 @@ export function DialogEditProfile() {
   };
   const onSubmit = async (data: editProfileDTO) => {
     mutateEditProfile(data);
+    console.log("data yang masuk : ", data);
+
     console.log("data yang inign di ubah sudah masuk : ", data);
   };
   return (
@@ -214,7 +206,7 @@ export function DialogEditProfile() {
                   ) : (
                     <img
                       className="h-32 w-full object-cover rounded-xl flex items-center justify-center"
-                      src={`${apiUpload}${user.profile[0].banner}`}
+                      src={`${user.profile[0].banner}`}
                       alt=""
                     />
                   )}
@@ -258,7 +250,7 @@ export function DialogEditProfile() {
                     ) : (
                       <img
                         className="h-24 w-24 bg-gray-500 rounded-full flex items-center justify-center object-cover p-0"
-                        src={`${apiUpload}${user.profile[0].photoProfile}`}
+                        src={`${user.profile[0].photoProfile}`}
                         alt=""
                       />
                     )}
