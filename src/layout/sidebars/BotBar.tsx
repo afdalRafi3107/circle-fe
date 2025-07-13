@@ -71,7 +71,7 @@ export function BotBar() {
                   : "text-white"
               }
             >
-              Folloxw
+              Follow
             </p>
           </NavLink>
           <NavLink
