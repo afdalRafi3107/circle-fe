@@ -1,5 +1,5 @@
 import { useAuth } from "@/Auth/AuthContext/AuthContext";
-import { Home, Search, PlusCircle, Heart, User, LogOut } from "lucide-react";
+import { Home, Search, Heart, User, LogOut } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
