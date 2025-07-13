@@ -20,7 +20,7 @@ function Profile() {
   return (
     <>
       <ScrollArea className="flex flex-col gap-6 w-full p-2 text-white border-r  border-gray-600 h-screen">
-        <div className="  ">
+        <div className="">
           {/* comback button */}
 
           <div className="flex gap-3 items-center mb-2">

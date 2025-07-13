@@ -40,7 +40,7 @@ export const LeftBar = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-3 text-2xl text-white w-1/4 text-left h-screen p-5 border-r border-gray-700">
+      <div className="hidden md:block flex flex-col gap-3 text-2xl text-white w-1/4 text-left h-screen p-5 border-r border-gray-700">
         <h1 className="text-green-400 text-3xl font-bold mb-2">CIRCLE</h1>
         <div className="flex flex-col gap-6 ">
           {/* Home */}

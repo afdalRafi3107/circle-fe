@@ -7,7 +7,6 @@ import { NavLink } from "react-router-dom";
 import { UseProfile } from "@/hooks/use-profile";
 import { ButtonDeleteThread } from "../featureButton/DeleteButtonThread";
 import { getRelatifTime } from "@/utils/time";
-import { EditPostDialog } from "../featureButton/editTrhread";
 
 import {
   DropdownMenu,
@@ -44,11 +43,11 @@ export function ThreadList() {
                 : "/defaultIMG/defaultP.jpg"
             }
             alt=""
-            className="w-12 h-12 rounded-4xl"
+            className="w-8 h-8 rounded-4xl sm:w-10 sm:h-10 md:w-12 md:h-12"
           />
-          <div>
-            <div className="flex items-center gap-2 justify-between p">
-              <div className="name w-full flex items-center gap-2">
+          <div className="w-full">
+            <div className="flex w-full items-center gap-2 justify-between">
+              <div className="name w-fit flex items-center gap-2">
                 <NavLink
                   to={
                     user?.id == thread.authorID
@@ -57,15 +56,17 @@ export function ThreadList() {
                   }
                   className="hover:underline"
                 >
-                  <p>{thread.author.profile?.[0]?.name}</p>
+                  <p className="text-sm sm:text-sm">
+                    {thread.author.profile?.[0]?.name}
+                  </p>
                 </NavLink>
                 <NavLink to={`/user-profile/${thread.author?.id}`}>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-sm text-gray-400 sm:text-xs">
                     @{thread.author.username}
                   </p>
                 </NavLink>
-                <p className="text-sm text-gray-400">•</p>
-                <p className="text-sm text-gray-400">
+                <p className="text-sm text-gray-400 sm:text-xs">•</p>
+                <p className="text-sm text-gray-400 sm:text-xs">
                   {getRelatifTime(new Date(thread.createAt))}
                 </p>
               </div>
@@ -80,13 +81,6 @@ export function ThreadList() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="bg-gray-900">
                       <DropdownMenuItem className="w-full hover:bg-gray-800">
-                        <EditPostDialog
-                          postId={thread.id}
-                          currentContent={thread.content}
-                          currentImg={thread.img}
-                        />
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="w-full hover:bg-gray-800">
                         <ButtonDeleteThread id={thread.id} />
                       </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -99,15 +93,15 @@ export function ThreadList() {
                 null}
               </div>
             </div>
-            <div className="flex flex-col gap-2  w-240">
+            <div className="flex flex-col gap-2  w-full">
               <NavLink to={`/detail-thread/${thread.id}`}>
-                <p className="text-sm text-gray-200 text-justify">
+                <p className="text-sm text-gray-200 text-justify sm:text-xs">
                   {thread.content}
                 </p>
                 <img
                   src={`${thread.img}`}
                   alt=""
-                  className="w-80 rounded-2xl"
+                  className="w-50 rounded-2xl sm:w-80 sm:rounded-xl"
                 />
               </NavLink>
             </div>

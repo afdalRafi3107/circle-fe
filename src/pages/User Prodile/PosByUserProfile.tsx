@@ -1,6 +1,5 @@
 import { MdOutlineInsertComment } from "react-icons/md";
 import { Button } from "@/components/ui/button";
-import { apiUpload } from "@/utils/urlimg";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,6 +12,7 @@ import { FaEllipsisV } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { usePostByUserProfile } from "@/hooks/use-GetPostByUserProfile";
 import { LikeButton } from "../featureButton/like";
+import { getRelatifTime } from "@/utils/time";
 
 export function PostListByUserProfile() {
   const { id } = useParams();
@@ -30,13 +30,13 @@ export function PostListByUserProfile() {
           <img
             src={
               post.author?.profile?.[0].photoProfile
-                ? `${apiUpload}${post.author?.profile?.[0].photoProfile}`
+                ? `${post.author?.profile?.[0].photoProfile}`
                 : "../defaultIMG/defaultP.jpg"
             }
             alt=""
             className="w-12 h-12 rounded-4xl"
           />
-          <div>
+          <div className="w-full">
             <div className="flex items-center gap-2 justify-between">
               <div className="flex items-center gap-2">
                 <p>{post.author?.profile?.[0].name || "Unknown"}</p>
@@ -69,16 +69,12 @@ export function PostListByUserProfile() {
                 </DropdownMenu>
               </div>
             </div>
-            <div className="flex flex-col gap-2 pr-5  w-240">
+            <div className="flex flex-col gap-2 pr-5  w-full">
               <NavLink to={`/detail-thread/${post.id}`}>
                 <p className="text-sm text-gray-200 text-justify">
                   {post.content}
                 </p>
-                <img
-                  src={`${apiUpload}${post.img}`}
-                  alt=""
-                  className="w-80 rounded-2xl"
-                />
+                <img src={`${post.img}`} alt="" className="w-80 rounded-2xl" />
               </NavLink>
             </div>
             {/* likes and comments */}
@@ -100,27 +96,4 @@ export function PostListByUserProfile() {
       ))}
     </>
   );
-}
-
-function getRelatifTime(postTime: Date): string {
-  const now = new Date();
-  const postDate = postTime.getTime();
-  const selisihDetik = Math.floor((now.getTime() - postDate) / 1000);
-
-  if (selisihDetik < 60) {
-    return `${selisihDetik}s ago`;
-  }
-
-  const selisihMenit = Math.floor(selisihDetik / 60);
-  if (selisihMenit < 60) {
-    return `${selisihMenit}m ago`;
-  }
-
-  const selisihJam = Math.floor(selisihMenit / 60);
-  if (selisihJam < 24) {
-    return `${selisihJam}h ago`;
-  }
-
-  const selisihHari = Math.floor(selisihJam / 24);
-  return `${selisihHari}d ago`;
 }

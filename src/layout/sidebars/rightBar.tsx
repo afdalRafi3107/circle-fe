@@ -43,7 +43,7 @@ export function RightBar() {
 
   return (
     <>
-      <div className="w-1/3 flex flex-col p-3 gap-3">
+      <div className="hidden md:block w-1/3 flex flex-col p-3 gap-3">
         {location.pathname === "/profile" ? null : (
           <div className="flex flex-col gap-3 h-fit bg-gray-950 text-white p-3 rounded-2xl">
             <p className="text-xl font-bold">My Profile</p>

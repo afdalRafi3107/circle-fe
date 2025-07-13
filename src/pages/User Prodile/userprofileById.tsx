@@ -68,11 +68,11 @@ function ProfileById() {
             {/* follwing/followers */}
             <div className="flex gap-4 text-sm">
               <div className="flex gap-1.5">
-                <p className="font-bold">54</p>
+                <p className="font-bold">{user._count.follow}</p>
                 <p className="text-gray-300">Following</p>
               </div>
               <div className="flex gap-1.5">
-                <p className="font-bold ">1023</p>
+                <p className="font-bold ">{user._count.followers}</p>
                 <p className="text-gray-300">Followers</p>
               </div>
             </div>

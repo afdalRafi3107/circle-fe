@@ -39,9 +39,9 @@ export function Home() {
   }
 
   return (
-    <ScrollArea className="border-r h-screen border-gray-700">
+    <ScrollArea className="h-screen w-full border-r border-gray-700 p-5">
       <div className=" text-white ">
-        <p className="text-2xl m-2 font-bold">Home</p>
+        <p className="text-md sm:text-xl m-2 font-bold">Home</p>
         <form>
           <div className="flex items-center p-3 gap-2 border-b border-gray-700">
             <img
@@ -51,7 +51,7 @@ export function Home() {
                   : "../defaultIMG/defaultP.jpg"
               }
               alt=""
-              className="w-12 h-12 rounded-4xl"
+              className="w-8 h-8 sm:w-12 sm:h-12  rounded-full"
             />
             <Input
               {...register("content")}
@@ -71,7 +71,7 @@ export function Home() {
                 type="file"
                 accept="image/"
                 onChange={handelImageChange}
-                className="sr-only"
+                className="sr-only w-0"
               />
             </div>
             <Button

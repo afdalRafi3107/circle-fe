@@ -11,6 +11,7 @@ import { NavLink } from "react-router-dom";
 import { ButtonDeleteThread } from "../featureButton/DeleteButtonThread";
 import { FaEllipsisV } from "react-icons/fa";
 import { LikeButton } from "../featureButton/like";
+import { getRelatifTime } from "@/utils/time";
 
 export function PostListByUser() {
   const { data: post, isLoading, isError } = usePostByUser();
@@ -22,7 +23,10 @@ export function PostListByUser() {
   return (
     <>
       {post.map((post: any) => (
-        <div key={post.id} className="flex gap-4 p-3 border-b border-gray-700">
+        <div
+          key={post.id}
+          className="w-full flex gap-4 p-3 border-b border-gray-700 bg-green-200"
+        >
           <img
             src={
               post.author?.profile?.[0].photoProfile
@@ -32,8 +36,8 @@ export function PostListByUser() {
             alt=""
             className="w-12 h-12 rounded-4xl"
           />
-          <div>
-            <div className="flex items-center gap-2 justify-between">
+          <div className=" w-full">
+            <div className="flex items-center gap-2 justify-between bg-amber-300">
               <div className="flex items-center gap-2">
                 <p>{post.author?.profile?.[0].name || "Unknown"}</p>
                 <p className="text-sm text-gray-400">
@@ -65,7 +69,7 @@ export function PostListByUser() {
                 </DropdownMenu>
               </div>
             </div>
-            <div className="flex flex-col gap-2 pr-5  w-240">
+            <div className="flex flex-col gap-2 pr-5  w-full">
               <NavLink to={`/detail-thread/${post.id}`}>
                 <p className="text-sm text-gray-200 text-justify">
                   {post.content}
@@ -92,27 +96,4 @@ export function PostListByUser() {
       ))}
     </>
   );
-}
-
-function getRelatifTime(postTime: Date): string {
-  const now = new Date();
-  const postDate = postTime.getTime();
-  const selisihDetik = Math.floor((now.getTime() - postDate) / 1000);
-
-  if (selisihDetik < 60) {
-    return `${selisihDetik}s ago`;
-  }
-
-  const selisihMenit = Math.floor(selisihDetik / 60);
-  if (selisihMenit < 60) {
-    return `${selisihMenit}m ago`;
-  }
-
-  const selisihJam = Math.floor(selisihMenit / 60);
-  if (selisihJam < 24) {
-    return `${selisihJam}h ago`;
-  }
-
-  const selisihHari = Math.floor(selisihJam / 24);
-  return `${selisihHari}d ago`;
 }

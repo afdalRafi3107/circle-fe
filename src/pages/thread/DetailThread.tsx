@@ -91,7 +91,7 @@ function DetailThread() {
                       : "../defaultIMG/defaultP.jpg"
                   }
                   alt="profile"
-                  className="w-12 h-11 rounded-full object-cover"
+                  className="w-8 h-7 sm:w-12 sm:h-11 rounded-full object-cover"
                 />
               </NavLink>
             </div>
@@ -159,9 +159,9 @@ function DetailThread() {
 
               {/* time post */}
               <div className="flex gap-2 items-center mt-2">
-                <p className="text-sm text-gray-400">10:43 PM</p>
+                {/* <p className="text-sm text-gray-400">10:43 PM</p>
                 <p className="text-2sm text-gray-400">•</p>
-                <p className="text-sm text-gray-400">Maret 30, 2025</p>
+                <p className="text-sm text-gray-400">Maret 30, 2025</p> */}
               </div>
               {/* Action */}
               <div className="mt-3 ml-2 flex gap-15 ">
@@ -195,18 +195,18 @@ function DetailThread() {
                   <img
                     src="../defaultIMG/defaultP.jpg"
                     alt="profile"
-                    className="w-12 h-11 rounded-full object-cover"
+                    className="w-8 h-7 sm:w-12 sm:h-11 rounded-full object-cover"
                   />
                 </NavLink>
               </div>
               <form
                 onSubmit={handleSubmit(onsubmit)}
                 action=""
-                className="flex items-center w-full"
+                className="flex gap-3 items-center w-full"
               >
                 <Input
                   {...register("comment")}
-                  className="w-full ml-2 border-0 shadow-none text-gray-300 text-10xl font-medium"
+                  className="w-full ml-2 h-7 text-sm sm:text-md sm:h-10 border-0 shadow-none text-gray-300  font-semibold"
                   placeholder="Type Your Reply!"
                 />
                 {/* <div>
@@ -220,7 +220,7 @@ function DetailThread() {
                   <Input id="file-upload" type="file" className="sr-only" />
                 </div> */}
                 <Button
-                  className="w-2md bg-green-600 text-white font-bold text-sm rounded-4xl hover:bg-green-500"
+                  className="w-2md h-8 sm:h-10  bg-green-600 text-white font-bold text-sm rounded-4xl hover:bg-green-500"
                   style={{ cursor: "pointer" }}
                   type="submit"
                 >
@@ -245,7 +245,7 @@ function DetailThread() {
                         : "../defaultIMG/defaultP.jpg"
                     }
                     alt="profile"
-                    className="w-12 h-11 rounded-full object-cover"
+                    className="w-8 h-7 sm:w-12 sm:h-11 rounded-full object-cover"
                   />
                 </NavLink>
               </div>
