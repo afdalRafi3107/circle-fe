@@ -25,7 +25,7 @@ export function PostListByUser() {
       {post.map((post: any) => (
         <div
           key={post.id}
-          className="w-full flex gap-4 p-3 border-b border-gray-700 bg-green-200"
+          className="w-full flex gap-4 p-3 border-b border-gray-700"
         >
           <img
             src={
@@ -37,7 +37,7 @@ export function PostListByUser() {
             className="w-12 h-12 rounded-4xl"
           />
           <div className=" w-full">
-            <div className="flex items-center gap-2 justify-between bg-amber-300">
+            <div className="flex items-center gap-2 justify-between ">
               <div className="flex items-center gap-2">
                 <p>{post.author?.profile?.[0].name || "Unknown"}</p>
                 <p className="text-sm text-gray-400">
