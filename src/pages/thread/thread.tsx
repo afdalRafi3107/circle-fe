@@ -24,12 +24,46 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { FaEllipsisV } from "react-icons/fa";
 import { LikeButton } from "../featureButton/like";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function ThreadList() {
   const { data: thread, isLoading, isError } = UseThread();
   const { data: user } = UseProfile();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) {
+    return (
+      <div className="w-full flex gap-4 col-end-2 p-3 border-b border-gray-700">
+        {/* Avatar Skeleton */}
+        <Skeleton className="w-12 h-12 rounded-full sm:w-10 sm:h-10 md:w-12 md:h-12" />
+
+        <div className="w-full space-y-2">
+          {/* Header: Name, Username, Time */}
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center gap-2">
+              <Skeleton className="h-4 w-24 rounded" />
+              <Skeleton className="h-3 w-20 rounded" />
+              <Skeleton className="h-3 w-4 rounded" />
+              <Skeleton className="h-3 w-16 rounded" />
+            </div>
+            <Skeleton className="w-4 h-4 rounded-full" />
+          </div>
+
+          {/* Content */}
+          <Skeleton className="h-4 w-full rounded" />
+          <Skeleton className="h-4 w-3/4 rounded" />
+
+          {/* Image preview (if exists) */}
+          <Skeleton className="h-48 w-full rounded-2xl sm:w-80 sm:rounded-xl" />
+
+          {/* Likes and Comments */}
+          <div className="flex gap-3 pt-2">
+            <Skeleton className="w-16 h-4 rounded" />
+            <Skeleton className="w-16 h-4 rounded" />
+          </div>
+        </div>
+      </div>
+    );
+  }
   if (isError || !thread) return <div>Gagal Mengambil thread</div>;
 
   return (
