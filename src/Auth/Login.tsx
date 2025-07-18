@@ -12,7 +12,7 @@ import { useLogin } from "@/hooks/use-login";
 export function LoginPage() {
   const Navigate = useNavigate();
   const { logIn, isAuth } = useAuth();
-  const { mutateLogin } = useLogin();
+  const { mutateLogin, isPending } = useLogin();
   if (isAuth) {
     Navigate("/");
   }
@@ -58,15 +58,15 @@ export function LoginPage() {
           )}
           <NavLink
             className="text-right text-white text-md hover:text-green-600"
-            to={"/forgotpassword"}
+            to={"/"}
           >
             Forgot Password?
           </NavLink>
           <Button
-            className="h-10 text-2xl text-white bg-green-600 hover:bg-green-500"
+            className="h-10 text-2xl text-white bg-green-600 cursor-pointer hover:bg-green-500"
             type="submit"
           >
-            Login
+            {isPending ? "Processing login..." : "Login"}
           </Button>
         </form>
         <p className="text-white">

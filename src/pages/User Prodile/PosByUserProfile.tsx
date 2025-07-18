@@ -13,11 +13,13 @@ import { useParams } from "react-router-dom";
 import { usePostByUserProfile } from "@/hooks/use-GetPostByUserProfile";
 import { LikeButton } from "../featureButton/like";
 import { getRelatifTime } from "@/utils/time";
+import { UseProfile } from "@/hooks/use-profile";
 
 export function PostListByUserProfile() {
   const { id } = useParams();
 
   const { data: post, isLoading, isError } = usePostByUserProfile(id || "");
+  const { data: user } = UseProfile();
   console.log("data post:", post);
   if (isLoading) return <div>Loading...</div>;
   if (isError || !post) return <div>Gagal Mengambil thread</div>;
@@ -49,24 +51,26 @@ export function PostListByUserProfile() {
                 </p>
               </div>
               <div className="dropdown">
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <FaEllipsisV
-                      size={12}
-                      className="text-white cursor-pointer hover:text-gray-400"
-                    />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="bg-gray-900">
-                    <DropdownMenuItem className="w-full hover:bg-gray-800">
-                      <a href="#" className="text-white">
-                        Update
-                      </a>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="w-full hover:bg-gray-800">
-                      <ButtonDeleteThread id={post.id} />
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                {user.id === post.authorID ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger>
+                      <FaEllipsisV
+                        size={12}
+                        className="text-white cursor-pointer hover:text-gray-400"
+                      />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="bg-gray-900">
+                      <DropdownMenuItem className="w-full hover:bg-gray-800">
+                        <a href="#" className="text-white">
+                          Update
+                        </a>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="w-full hover:bg-gray-800">
+                        <ButtonDeleteThread id={post.id} />
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : null}
               </div>
             </div>
             <div className="flex flex-col gap-2 pr-5  w-full">
