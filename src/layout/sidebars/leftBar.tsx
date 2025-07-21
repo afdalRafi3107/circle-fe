@@ -27,7 +27,6 @@ import {
 } from "@/schema/createThreadSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef, useState } from "react";
-import { Label } from "@/components/ui/label";
 import { useLocation } from "react-router-dom";
 
 export const LeftBar = () => {
