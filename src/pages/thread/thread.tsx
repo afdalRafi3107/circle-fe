@@ -104,7 +104,7 @@ export function ThreadList() {
                 <img
                   src={`${thread.img}`}
                   alt=""
-                  className="w-50 rounded-2xl sm:w-80 sm:rounded-xl"
+                  className="w-50 rounded-2xl sm:w-80 sm:rounded-xl mt-2"
                 />
               </NavLink>
             </div>

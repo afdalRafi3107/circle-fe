@@ -16,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useNavigate } from "react-router-dom";
+import { LuImagePlus } from "react-icons/lu";
 
 import { useAuth } from "@/Auth/AuthContext/AuthContext";
 import { useCreateThread } from "@/hooks/use-createThread";
@@ -25,7 +26,7 @@ import {
   createThreadSchemas,
 } from "@/schema/createThreadSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { useLocation } from "react-router-dom";
 
@@ -157,6 +158,12 @@ function DialogPost() {
     resolver: zodResolver(createThreadSchemas),
   });
 
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleImageClick = () => {
+    fileInputRef.current?.click();
+  };
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -184,13 +191,12 @@ function DialogPost() {
           </Button>
         </DialogTrigger>
         <DialogContent className=" bg-gray-950 text-white border-0">
+          <DialogHeader>
+            <DialogTitle>Ceate Post</DialogTitle>
+          </DialogHeader>
           <form encType="multipart/form-data" onSubmit={handleSubmit(onsubmit)}>
-            <DialogHeader>
-              <DialogTitle>Ceate Post</DialogTitle>
-            </DialogHeader>
             <div className="grid gap-4">
               <div className="grid gap-3">
-                <Label htmlFor="name-1">Content</Label>
                 <Textarea
                   {...register("content")}
                   placeholder="What is happening..."
@@ -200,11 +206,21 @@ function DialogPost() {
                 )}
               </div>
               <div className="grid gap-3">
-                <Label htmlFor="username-1"></Label>
+                <label htmlFor="file-upload">
+                  <LuImagePlus
+                    size={25}
+                    onClick={handleImageClick}
+                    className="mr-3 ml-3 text-green-600 hover:text-green-500"
+                    style={{ cursor: "pointer" }}
+                  />
+                </label>
+
                 <Input
+                  ref={fileInputRef}
                   type="file"
-                  accept="image/"
+                  accept="image/*"
                   onChange={handleImageChange}
+                  className="hidden"
                 />
                 {preview && (
                   <div className="flex flex-col gap-2">

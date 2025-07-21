@@ -32,7 +32,7 @@ import { LikeReplyButton } from "../featureButton/likeReply";
 
 function DetailThread() {
   const { id } = useParams();
-  const { data: userLogin } = UseProfile();
+  // const { data: userLogin } = UseProfile();
 
   const navigate = useNavigate();
 
@@ -113,7 +113,7 @@ function DetailThread() {
                   </p>
                 </div>
                 <div>
-                  {userLogin.id == thread.author?.id ? (
+                  {/* {userLogin.id == thread.author?.id ? (
                     <DropdownMenu>
                       <DropdownMenuTrigger>
                         <FaEllipsisV
@@ -134,7 +134,7 @@ function DetailThread() {
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
-                  ) : null}
+                  ) : null} */}
                 </div>
               </div>
               <p className="text-gray-200 text-justify">{thread.content}</p>
