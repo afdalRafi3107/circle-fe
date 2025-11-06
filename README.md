@@ -1,54 +1,152 @@
-# React + TypeScript + Vite
+# Circle FE (Frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend project untuk aplikasi **Circle** yang dibangun menggunakan **React + TypeScript** dengan bundler **Vite**, state management menggunakan **TanStack Query**, validasi menggunakan **Zod**, dan styling menggunakan **TailwindCSS**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tech Stack
 
-## Expanding the ESLint configuration
+| Category | Tech / Library |
+|----------|----------------|
+| Framework | React 19, TypeScript |
+| Bundler | Vite |
+| Styling | TailwindCSS, class-variance-authority, tailwind-merge |
+| UI Components | Radix UI, lucide-react, sonner, sweetalert2 |
+| Form Handling | react-hook-form, @hookform/resolvers, zod |
+| Data Fetching | Axios + TanStack React Query |
+| Routing | react-router-dom v7 |
+| Utilities | date-fns, js-cookie, cookie |
+| Dev Tools | ESLint, TypeScript, Vite preview |
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## 📂 Project Structure
+
+```
+.
+├── dist/                     # Build output
+├── node_modules/
+├── public/                   # Static assets
+│   ├── defaultIMG/
+│   ├── img/
+│   └── vite.svg
+├── src/
+│   ├── api/                  # API services (axios requests, endpoints)
+│   ├── assets/               # Images, fonts, etc
+│   ├── Auth/                 # Auth-related pages, hooks, context
+│   ├── components/           # Reusable components
+│   │   └── ui/               # Base UI components (shadcn-like)
+│   ├── hooks/                # Custom React hooks
+│   ├── layout/               # Page layout components
+│   ├── lib/                  # Helpers, constants, configs
+│   ├── model/                # Data models (zod schemas, TS types)
+│   ├── pages/                # Main pages/routes
+│   ├── Routes/               # App route definitions
+│   ├── schema/               # Form validation schemas
+│   ├── utils/                # Utility functions
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── vite-env.d.ts
+├── .env                      # Environment variables
+├── .gitignore
+├── eslint.config.js
+├── index.html
+├── package.json
+├── tsconfig.json
+├── tsconfig.app.json
+├── tsconfig.node.json
+├── vite.config.ts
+└── README.md
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 📥 Cara Clone & Menjalankan Project
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+### 1️⃣ Clone Repository
+
+```sh
+git clone https://github.com/afdalRafi3107/circle-fe.git
+cd circle-fe
 ```
+
+### 2️⃣ Install Dependencies
+
+```sh
+npm install
+```
+
+atau jika menggunakan **pnpm**:
+
+```sh
+pnpm install
+```
+
+### 3️⃣ Setup Environment
+
+Buat file `.env` di root folder dan isi sesuai kebutuhan (contoh):
+
+```
+VITE_API_URL=https://api.example.com
+```
+
+### 4️⃣ Jalankan Development Server
+
+```sh
+npm run dev
+```
+
+Server akan berjalan di:
+
+```
+http://localhost:5173
+```
+
+### 5️⃣ Build Production
+
+```sh
+npm run build
+```
+
+### 6️⃣ Preview Build
+
+```sh
+npm run preview
+```
+
+---
+
+## ✅ Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Menjalankan Vite dev server |
+| `npm run build` | Build TypeScript + Vite production bundle |
+| `npm run preview` | Menjalankan preview hasil build |
+| `npm run lint` | Menjalankan ESLint |
+
+---
+
+## 📌 Requirements
+
+- Node.js **v18+**
+- npm / pnpm / yarn
+- Git
+
+---
+
+## 📄 License
+
+MIT License – bebas digunakan & dikembangkan.
+
+---
+
+## 🤝 Contributing
+
+Pull Request dan Issue sangat diterima!  
+Silakan **fork**, buat branch, dan kirim PR.
+
+---
+
+Jika ingin saya tambahkan **badge**, **preview screenshot**, atau **contoh environment variable**, tinggal bilang saja 👍
+
